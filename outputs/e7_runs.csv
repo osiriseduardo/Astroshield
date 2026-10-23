@@ -1,0 +1,11 @@
+scenario,seed,fitness,initial_fitness,feasible,violation_deg,regions_covered,weighted_coverage,accepted,convergence_gen,full_coverage_gen,generations,evaluations,time_s,bound
+base,0,0.9174,0.2103,True,0.0,6,1.0,True,314,14,400,48122,3.83,0.9179
+base,1,0.9175,0.2188,True,0.0,6,1.0,True,197,15,400,48122,3.81,0.9179
+base,2,0.9176,0.1645,True,0.0,6,1.0,True,210,41,400,48122,3.85,0.9179
+base,3,0.9176,0.1939,True,0.0,6,1.0,True,193,17,400,48122,3.8,0.9179
+base,4,0.906,0.2096,True,0.0,6,1.0,False,196,23,400,48122,3.81,0.9179
+base,5,0.9046,0.2099,True,0.0,6,1.0,False,205,16,400,48122,3.83,0.9179
+base,6,0.9176,0.1678,True,0.0,6,1.0,True,318,20,400,48122,3.81,0.9179
+base,7,0.9176,0.1745,True,0.0,6,1.0,True,197,16,400,48122,3.81,0.9179
+base,8,0.9175,0.199,True,0.0,6,1.0,True,224,15,400,48122,3.79,0.9179
+base,9,0.9176,0.2023,True,0.0,6,1.0,True,219,32,400,48122,3.82,0.9179

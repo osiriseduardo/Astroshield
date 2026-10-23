@@ -1,0 +1,1773 @@
+{
+  "ga_config": {
+    "population_size": 120,
+    "generations": 400,
+    "tournament_size": 4,
+    "crossover_rate": 0.9,
+    "blend_rate": 0.3,
+    "align_crossover": true,
+    "mutation_rate": 0.15,
+    "sigma_start_deg": 12.0,
+    "sigma_end_deg": 0.05,
+    "alt_sigma_start_km": 250.0,
+    "alt_sigma_end_km": 2.0,
+    "reset_rate": 0.02,
+    "repair_rate": 0.3,
+    "elite_size": 4,
+    "constraint_handling": "deb",
+    "penalty_factor": 0.05,
+    "patience": null
+  },
+  "E1": {
+    "scenario": "etapa1-sin-restricciones",
+    "seed": 0,
+    "fitness": 0.9054,
+    "initial_fitness": 0.2696,
+    "feasible": true,
+    "violation_deg": 0.0,
+    "regions_covered": 6,
+    "weighted_coverage": 1.0,
+    "accepted": false,
+    "convergence_gen": 200,
+    "full_coverage_gen": 11,
+    "generations": 400,
+    "evaluations": 48122,
+    "time_s": 3.16,
+    "bound": 0.9179,
+    "regions": [
+      {
+        "región": "Península de Yucatán",
+        "prioridad": "alta",
+        "peso": 3.0,
+        "cobertura": 1.0,
+        "redundancia": 0.0,
+        "resolución": 0.99,
+        "score": 0.848,
+        "cubierta": "sí",
+        "satélites": "6"
+      },
+      {
+        "región": "Amazonía brasileña",
+        "prioridad": "alta",
+        "peso": 3.0,
+        "cobertura": 1.0,
+        "redundancia": 1.0,
+        "resolución": 0.99,
+        "score": 0.998,
+        "cubierta": "sí",
+        "satélites": "3,5"
+      },
+      {
+        "región": "California",
+        "prioridad": "media",
+        "peso": 2.0,
+        "cobertura": 1.0,
+        "redundancia": 0.0,
+        "resolución": 0.989,
+        "score": 0.848,
+        "cubierta": "sí",
+        "satélites": "1"
+      },
+      {
+        "región": "Sahel",
+        "prioridad": "media",
+        "peso": 2.0,
+        "cobertura": 1.0,
+        "redundancia": 0.0,
+        "resolución": 0.989,
+        "score": 0.848,
+        "cubierta": "sí",
+        "satélites": "7"
+      },
+      {
+        "región": "Japón",
+        "prioridad": "media",
+        "peso": 2.0,
+        "cobertura": 1.0,
+        "redundancia": 1.0,
+        "resolución": 0.989,
+        "score": 0.998,
+        "cubierta": "sí",
+        "satélites": "2,4"
+      },
+      {
+        "región": "Interior de Australia",
+        "prioridad": "normal",
+        "peso": 1.0,
+        "cobertura": 1.0,
+        "redundancia": 0.0,
+        "resolución": 0.932,
+        "score": 0.84,
+        "cubierta": "sí",
+        "satélites": "0"
+      }
+    ],
+    "acceptance": {
+      "C1 válida (sin violaciones)": true,
+      "C2 todas las regiones cubiertas": true,
+      "C3 ≥2 regiones Alta con redundancia ≥ 95%": false,
+      "C4 fitness ≥ 90% de la cota de referencia": true,
+      "ACEPTADA": false
+    }
+  },
+  "E2": {
+    "scenario": "base",
+    "seed": 0,
+    "fitness": 0.9174,
+    "initial_fitness": 0.2103,
+    "feasible": true,
+    "violation_deg": 0.0,
+    "regions_covered": 6,
+    "weighted_coverage": 1.0,
+    "accepted": true,
+    "convergence_gen": 314,
+    "full_coverage_gen": 14,
+    "generations": 400,
+    "evaluations": 48122,
+    "time_s": 3.83,
+    "bound": {
+      "fitness": 0.9179307692307692,
+      "regions": {
+        "Península de Yucatán": {
+          "alt_km": 513.0,
+          "score": 0.9986999999999999
+        },
+        "Amazonía brasileña": {
+          "alt_km": 513.0,
+          "score": 0.9986999999999999
+        },
+        "California": {
+          "alt_km": 513.0,
+          "score": 0.8487
+        },
+        "Sahel": {
+          "alt_km": 513.0,
+          "score": 0.8487
+        },
+        "Japón": {
+          "alt_km": 513.0,
+          "score": 0.8487
+        },
+        "Interior de Australia": {
+          "alt_km": 513.0,
+          "score": 0.8487
+        }
+      }
+    },
+    "regions": [
+      {
+        "región": "Península de Yucatán",
+        "prioridad": "alta",
+        "peso": 3.0,
+        "cobertura": 1.0,
+        "redundancia": 1.0,
+        "resolución": 0.99,
+        "score": 0.999,
+        "cubierta": "sí",
+        "satélites": "3,5"
+      },
+      {
+        "región": "Amazonía brasileña",
+        "prioridad": "alta",
+        "peso": 3.0,
+        "cobertura": 1.0,
+        "redundancia": 1.0,
+        "resolución": 0.99,
+        "score": 0.998,
+        "cubierta": "sí",
+        "satélites": "1,6"
+      },
+      {
+        "región": "California",
+        "prioridad": "media",
+        "peso": 2.0,
+        "cobertura": 1.0,
+        "redundancia": 0.0,
+        "resolución": 0.989,
+        "score": 0.848,
+        "cubierta": "sí",
+        "satélites": "0"
+      },
+      {
+        "región": "Sahel",
+        "prioridad": "media",
+        "peso": 2.0,
+        "cobertura": 1.0,
+        "redundancia": 0.0,
+        "resolución": 0.987,
+        "score": 0.848,
+        "cubierta": "sí",
+        "satélites": "4"
+      },
+      {
+        "región": "Japón",
+        "prioridad": "media",
+        "peso": 2.0,
+        "cobertura": 1.0,
+        "redundancia": 0.0,
+        "resolución": 0.989,
+        "score": 0.848,
+        "cubierta": "sí",
+        "satélites": "7"
+      },
+      {
+        "región": "Interior de Australia",
+        "prioridad": "normal",
+        "peso": 1.0,
+        "cobertura": 1.0,
+        "redundancia": 0.0,
+        "resolución": 0.968,
+        "score": 0.845,
+        "cubierta": "sí",
+        "satélites": "2"
+      }
+    ],
+    "satellites": [
+      {
+        "sat": 0,
+        "lat": 36.81,
+        "lon": -119.39,
+        "alt_km": 516.0,
+        "huella_km": 302.0
+      },
+      {
+        "sat": 1,
+        "lat": 0.11,
+        "lon": -63.84,
+        "alt_km": 1537.0,
+        "huella_km": 930.0
+      },
+      {
+        "sat": 2,
+        "lat": -25.05,
+        "lon": 132.87,
+        "alt_km": 548.0,
+        "huella_km": 321.0
+      },
+      {
+        "sat": 3,
+        "lat": 20.5,
+        "lon": -89.0,
+        "alt_km": 515.0,
+        "huella_km": 301.0
+      },
+      {
+        "sat": 4,
+        "lat": 15.01,
+        "lon": 0.01,
+        "alt_km": 519.0,
+        "huella_km": 304.0
+      },
+      {
+        "sat": 5,
+        "lat": 18.46,
+        "lon": -87.16,
+        "alt_km": 1445.0,
+        "huella_km": 871.0
+      },
+      {
+        "sat": 6,
+        "lat": -3.49,
+        "lon": -61.99,
+        "alt_km": 516.0,
+        "huella_km": 302.0
+      },
+      {
+        "sat": 7,
+        "lat": 36.01,
+        "lon": 138.02,
+        "alt_km": 516.0,
+        "huella_km": 302.0
+      }
+    ],
+    "acceptance": {
+      "C1 válida (sin violaciones)": true,
+      "C2 todas las regiones cubiertas": true,
+      "C3 ≥2 regiones Alta con redundancia ≥ 95%": true,
+      "C4 fitness ≥ 90% de la cota de referencia": true,
+      "ACEPTADA": true
+    },
+    "initial_feasible_ratio": 0.7416666666666667
+  },
+  "E7": {
+    "summary": {
+      "n_runs": 10,
+      "budget_evaluations": 48122,
+      "ga_mean": 0.9151,
+      "ga_std": 0.005176013051675106,
+      "ga_min": 0.9046,
+      "ga_max": 0.9176,
+      "ga_cv_percent": 0.5656226698366414,
+      "ga_accepted": 8,
+      "random_mean": 0.42319493369063366,
+      "random_max": 0.4567215522402445,
+      "greedy": 0.9142307692307692,
+      "bound": 0.9179307692307692,
+      "mannwhitney_p_ga_gt_random": 8.105536723700762e-05,
+      "solution_distance_mean_deg": 6.248988329134268,
+      "solution_distance_max_deg": 18.407045740019218
+    },
+    "runs": [
+      {
+        "scenario": "base",
+        "seed": 0,
+        "fitness": 0.9174,
+        "initial_fitness": 0.2103,
+        "feasible": true,
+        "violation_deg": 0.0,
+        "regions_covered": 6,
+        "weighted_coverage": 1.0,
+        "accepted": true,
+        "convergence_gen": 314,
+        "full_coverage_gen": 14,
+        "generations": 400,
+        "evaluations": 48122,
+        "time_s": 3.83,
+        "bound": 0.9179
+      },
+      {
+        "scenario": "base",
+        "seed": 1,
+        "fitness": 0.9175,
+        "initial_fitness": 0.2188,
+        "feasible": true,
+        "violation_deg": 0.0,
+        "regions_covered": 6,
+        "weighted_coverage": 1.0,
+        "accepted": true,
+        "convergence_gen": 197,
+        "full_coverage_gen": 15,
+        "generations": 400,
+        "evaluations": 48122,
+        "time_s": 3.81,
+        "bound": 0.9179
+      },
+      {
+        "scenario": "base",
+        "seed": 2,
+        "fitness": 0.9176,
+        "initial_fitness": 0.1645,
+        "feasible": true,
+        "violation_deg": 0.0,
+        "regions_covered": 6,
+        "weighted_coverage": 1.0,
+        "accepted": true,
+        "convergence_gen": 210,
+        "full_coverage_gen": 41,
+        "generations": 400,
+        "evaluations": 48122,
+        "time_s": 3.85,
+        "bound": 0.9179
+      },
+      {
+        "scenario": "base",
+        "seed": 3,
+        "fitness": 0.9176,
+        "initial_fitness": 0.1939,
+        "feasible": true,
+        "violation_deg": 0.0,
+        "regions_covered": 6,
+        "weighted_coverage": 1.0,
+        "accepted": true,
+        "convergence_gen": 193,
+        "full_coverage_gen": 17,
+        "generations": 400,
+        "evaluations": 48122,
+        "time_s": 3.8,
+        "bound": 0.9179
+      },
+      {
+        "scenario": "base",
+        "seed": 4,
+        "fitness": 0.906,
+        "initial_fitness": 0.2096,
+        "feasible": true,
+        "violation_deg": 0.0,
+        "regions_covered": 6,
+        "weighted_coverage": 1.0,
+        "accepted": false,
+        "convergence_gen": 196,
+        "full_coverage_gen": 23,
+        "generations": 400,
+        "evaluations": 48122,
+        "time_s": 3.81,
+        "bound": 0.9179
+      },
+      {
+        "scenario": "base",
+        "seed": 5,
+        "fitness": 0.9046,
+        "initial_fitness": 0.2099,
+        "feasible": true,
+        "violation_deg": 0.0,
+        "regions_covered": 6,
+        "weighted_coverage": 1.0,
+        "accepted": false,
+        "convergence_gen": 205,
+        "full_coverage_gen": 16,
+        "generations": 400,
+        "evaluations": 48122,
+        "time_s": 3.83,
+        "bound": 0.9179
+      },
+      {
+        "scenario": "base",
+        "seed": 6,
+        "fitness": 0.9176,
+        "initial_fitness": 0.1678,
+        "feasible": true,
+        "violation_deg": 0.0,
+        "regions_covered": 6,
+        "weighted_coverage": 1.0,
+        "accepted": true,
+        "convergence_gen": 318,
+        "full_coverage_gen": 20,
+        "generations": 400,
+        "evaluations": 48122,
+        "time_s": 3.81,
+        "bound": 0.9179
+      },
+      {
+        "scenario": "base",
+        "seed": 7,
+        "fitness": 0.9176,
+        "initial_fitness": 0.1745,
+        "feasible": true,
+        "violation_deg": 0.0,
+        "regions_covered": 6,
+        "weighted_coverage": 1.0,
+        "accepted": true,
+        "convergence_gen": 197,
+        "full_coverage_gen": 16,
+        "generations": 400,
+        "evaluations": 48122,
+        "time_s": 3.81,
+        "bound": 0.9179
+      },
+      {
+        "scenario": "base",
+        "seed": 8,
+        "fitness": 0.9175,
+        "initial_fitness": 0.199,
+        "feasible": true,
+        "violation_deg": 0.0,
+        "regions_covered": 6,
+        "weighted_coverage": 1.0,
+        "accepted": true,
+        "convergence_gen": 224,
+        "full_coverage_gen": 15,
+        "generations": 400,
+        "evaluations": 48122,
+        "time_s": 3.79,
+        "bound": 0.9179
+      },
+      {
+        "scenario": "base",
+        "seed": 9,
+        "fitness": 0.9176,
+        "initial_fitness": 0.2023,
+        "feasible": true,
+        "violation_deg": 0.0,
+        "regions_covered": 6,
+        "weighted_coverage": 1.0,
+        "accepted": true,
+        "convergence_gen": 219,
+        "full_coverage_gen": 32,
+        "generations": 400,
+        "evaluations": 48122,
+        "time_s": 3.82,
+        "bound": 0.9179
+      }
+    ],
+    "random": [
+      0.4209812205078495,
+      0.4049536499868711,
+      0.39481356371544485,
+      0.4371286666980346,
+      0.4567215522402445,
+      0.42457801178278554,
+      0.41140956284438474,
+      0.4477597839907264,
+      0.41883579558883227,
+      0.41476752955116303
+    ]
+  },
+  "E3_E4": {
+    "all_respected": true,
+    "min_margin_by_zone": {
+      "Atlántico Norte": 30.03,
+      "Objeto A": 36.38,
+      "Objeto B": 18.49,
+      "Pacífico Sur": 45.56,
+      "Polar Norte": 50.46
+    },
+    "initial_feasible_ratio_mean": 0.785,
+    "final_feasible_ratio_mean": 0.9975000000000002
+  },
+  "E4_near": {
+    "scenario": "objeto-junto-al-Sahel",
+    "seed": 0,
+    "fitness": 0.909,
+    "initial_fitness": 0.2103,
+    "feasible": true,
+    "violation_deg": 0.0,
+    "regions_covered": 6,
+    "weighted_coverage": 1.0,
+    "accepted": true,
+    "convergence_gen": 192,
+    "full_coverage_gen": 28,
+    "generations": 400,
+    "evaluations": 48122,
+    "time_s": 3.79,
+    "bound": 0.9179,
+    "margins": [
+      {
+        "zona": "Atlántico Norte",
+        "tipo": "debris",
+        "radio_deg": 12.0,
+        "sat_más_cercano": 1,
+        "distancia_deg": 40.23,
+        "margen_deg": 28.23,
+        "respeta": true
+      },
+      {
+        "zona": "Pacífico Sur",
+        "tipo": "debris",
+        "radio_deg": 10.0,
+        "sat_más_cercano": 3,
+        "distancia_deg": 58.65,
+        "margen_deg": 48.65,
+        "respeta": true
+      },
+      {
+        "zona": "Polar Norte",
+        "tipo": "debris",
+        "radio_deg": 8.0,
+        "sat_más_cercano": 5,
+        "distancia_deg": 58.48,
+        "margen_deg": 50.48,
+        "respeta": true
+      },
+      {
+        "zona": "Objeto B",
+        "tipo": "occupied",
+        "radio_deg": 5.0,
+        "sat_más_cercano": 7,
+        "distancia_deg": 23.77,
+        "margen_deg": 18.77,
+        "respeta": true
+      },
+      {
+        "zona": "Objeto A (reubicado)",
+        "tipo": "occupied",
+        "radio_deg": 5.0,
+        "sat_más_cercano": 1,
+        "distancia_deg": 5.0,
+        "margen_deg": 0.0,
+        "respeta": true
+      }
+    ],
+    "regions": [
+      {
+        "región": "Península de Yucatán",
+        "prioridad": "alta",
+        "peso": 3.0,
+        "cobertura": 1.0,
+        "redundancia": 1.0,
+        "resolución": 0.99,
+        "score": 0.998,
+        "cubierta": "sí",
+        "satélites": "2,3"
+      },
+      {
+        "región": "Amazonía brasileña",
+        "prioridad": "alta",
+        "peso": 3.0,
+        "cobertura": 1.0,
+        "redundancia": 1.0,
+        "resolución": 0.99,
+        "score": 0.999,
+        "cubierta": "sí",
+        "satélites": "4,6"
+      },
+      {
+        "región": "California",
+        "prioridad": "media",
+        "peso": 2.0,
+        "cobertura": 1.0,
+        "redundancia": 0.0,
+        "resolución": 0.99,
+        "score": 0.849,
+        "cubierta": "sí",
+        "satélites": "0"
+      },
+      {
+        "región": "Sahel",
+        "prioridad": "media",
+        "peso": 2.0,
+        "cobertura": 1.0,
+        "redundancia": 0.0,
+        "resolución": 0.615,
+        "score": 0.792,
+        "cubierta": "sí",
+        "satélites": "1"
+      },
+      {
+        "región": "Japón",
+        "prioridad": "media",
+        "peso": 2.0,
+        "cobertura": 1.0,
+        "redundancia": 0.0,
+        "resolución": 0.989,
+        "score": 0.848,
+        "cubierta": "sí",
+        "satélites": "5"
+      },
+      {
+        "región": "Interior de Australia",
+        "prioridad": "normal",
+        "peso": 1.0,
+        "cobertura": 1.0,
+        "redundancia": 0.0,
+        "resolución": 0.987,
+        "score": 0.848,
+        "cubierta": "sí",
+        "satélites": "7"
+      }
+    ]
+  },
+  "E5": {
+    "levels": [
+      {
+        "scenario": "R0 base",
+        "seed": 0,
+        "fitness": 0.9174,
+        "initial_fitness": 0.2103,
+        "feasible": true,
+        "violation_deg": 0.0,
+        "regions_covered": 6,
+        "weighted_coverage": 1.0,
+        "accepted": true,
+        "convergence_gen": 314,
+        "full_coverage_gen": 14,
+        "generations": 400,
+        "evaluations": 48122,
+        "time_s": 3.73,
+        "bound": 0.9179,
+        "regions": [
+          {
+            "región": "Península de Yucatán",
+            "prioridad": "alta",
+            "peso": 3.0,
+            "cobertura": 1.0,
+            "redundancia": 1.0,
+            "resolución": 0.99,
+            "score": 0.999,
+            "cubierta": "sí",
+            "satélites": "3,5"
+          },
+          {
+            "región": "Amazonía brasileña",
+            "prioridad": "alta",
+            "peso": 3.0,
+            "cobertura": 1.0,
+            "redundancia": 1.0,
+            "resolución": 0.99,
+            "score": 0.998,
+            "cubierta": "sí",
+            "satélites": "1,6"
+          },
+          {
+            "región": "California",
+            "prioridad": "media",
+            "peso": 2.0,
+            "cobertura": 1.0,
+            "redundancia": 0.0,
+            "resolución": 0.989,
+            "score": 0.848,
+            "cubierta": "sí",
+            "satélites": "0"
+          },
+          {
+            "región": "Sahel",
+            "prioridad": "media",
+            "peso": 2.0,
+            "cobertura": 1.0,
+            "redundancia": 0.0,
+            "resolución": 0.987,
+            "score": 0.848,
+            "cubierta": "sí",
+            "satélites": "4"
+          },
+          {
+            "región": "Japón",
+            "prioridad": "media",
+            "peso": 2.0,
+            "cobertura": 1.0,
+            "redundancia": 0.0,
+            "resolución": 0.989,
+            "score": 0.848,
+            "cubierta": "sí",
+            "satélites": "7"
+          },
+          {
+            "región": "Interior de Australia",
+            "prioridad": "normal",
+            "peso": 1.0,
+            "cobertura": 1.0,
+            "redundancia": 0.0,
+            "resolución": 0.968,
+            "score": 0.845,
+            "cubierta": "sí",
+            "satélites": "2"
+          }
+        ],
+        "satellites": [
+          {
+            "sat": 0,
+            "lat": 36.81,
+            "lon": -119.39,
+            "alt_km": 516.0,
+            "huella_km": 302.0
+          },
+          {
+            "sat": 1,
+            "lat": 0.11,
+            "lon": -63.84,
+            "alt_km": 1537.0,
+            "huella_km": 930.0
+          },
+          {
+            "sat": 2,
+            "lat": -25.05,
+            "lon": 132.87,
+            "alt_km": 548.0,
+            "huella_km": 321.0
+          },
+          {
+            "sat": 3,
+            "lat": 20.5,
+            "lon": -89.0,
+            "alt_km": 515.0,
+            "huella_km": 301.0
+          },
+          {
+            "sat": 4,
+            "lat": 15.01,
+            "lon": 0.01,
+            "alt_km": 519.0,
+            "huella_km": 304.0
+          },
+          {
+            "sat": 5,
+            "lat": 18.46,
+            "lon": -87.16,
+            "alt_km": 1445.0,
+            "huella_km": 871.0
+          },
+          {
+            "sat": 6,
+            "lat": -3.49,
+            "lon": -61.99,
+            "alt_km": 516.0,
+            "huella_km": 302.0
+          },
+          {
+            "sat": 7,
+            "lat": 36.01,
+            "lon": 138.02,
+            "alt_km": 516.0,
+            "huella_km": 302.0
+          }
+        ]
+      },
+      {
+        "scenario": "R1 +zona sobre Yucatán",
+        "seed": 0,
+        "fitness": 0.892,
+        "initial_fitness": 0.2025,
+        "feasible": true,
+        "violation_deg": 0.0,
+        "regions_covered": 6,
+        "weighted_coverage": 1.0,
+        "accepted": false,
+        "convergence_gen": 195,
+        "full_coverage_gen": 8,
+        "generations": 400,
+        "evaluations": 48122,
+        "time_s": 3.91,
+        "bound": 0.9179,
+        "regions": [
+          {
+            "región": "Península de Yucatán",
+            "prioridad": "alta",
+            "peso": 3.0,
+            "cobertura": 1.0,
+            "redundancia": 1.0,
+            "resolución": 0.583,
+            "score": 0.938,
+            "cubierta": "sí",
+            "satélites": "2,6"
+          },
+          {
+            "región": "Amazonía brasileña",
+            "prioridad": "alta",
+            "peso": 3.0,
+            "cobertura": 1.0,
+            "redundancia": 0.0,
+            "resolución": 0.99,
+            "score": 0.848,
+            "cubierta": "sí",
+            "satélites": "4"
+          },
+          {
+            "región": "California",
+            "prioridad": "media",
+            "peso": 2.0,
+            "cobertura": 1.0,
+            "redundancia": 0.0,
+            "resolución": 0.989,
+            "score": 0.848,
+            "cubierta": "sí",
+            "satélites": "5"
+          },
+          {
+            "región": "Sahel",
+            "prioridad": "media",
+            "peso": 2.0,
+            "cobertura": 1.0,
+            "redundancia": 1.0,
+            "resolución": 0.99,
+            "score": 0.998,
+            "cubierta": "sí",
+            "satélites": "1,7"
+          },
+          {
+            "región": "Japón",
+            "prioridad": "media",
+            "peso": 2.0,
+            "cobertura": 1.0,
+            "redundancia": 0.0,
+            "resolución": 0.988,
+            "score": 0.848,
+            "cubierta": "sí",
+            "satélites": "3"
+          },
+          {
+            "región": "Interior de Australia",
+            "prioridad": "normal",
+            "peso": 1.0,
+            "cobertura": 1.0,
+            "redundancia": 0.0,
+            "resolución": 0.987,
+            "score": 0.848,
+            "cubierta": "sí",
+            "satélites": "0"
+          }
+        ],
+        "satellites": [
+          {
+            "sat": 0,
+            "lat": -25.01,
+            "lon": 133.02,
+            "alt_km": 519.0,
+            "huella_km": 304.0
+          },
+          {
+            "sat": 1,
+            "lat": 15.01,
+            "lon": -0.0,
+            "alt_km": 516.0,
+            "huella_km": 302.0
+          },
+          {
+            "sat": 2,
+            "lat": 17.34,
+            "lon": -87.86,
+            "alt_km": 1125.0,
+            "huella_km": 671.0
+          },
+          {
+            "sat": 3,
+            "lat": 36.0,
+            "lon": 138.01,
+            "alt_km": 518.0,
+            "huella_km": 303.0
+          },
+          {
+            "sat": 4,
+            "lat": -3.49,
+            "lon": -61.99,
+            "alt_km": 515.0,
+            "huella_km": 302.0
+          },
+          {
+            "sat": 5,
+            "lat": 36.81,
+            "lon": -119.42,
+            "alt_km": 517.0,
+            "huella_km": 303.0
+          },
+          {
+            "sat": 6,
+            "lat": 19.89,
+            "lon": -82.9,
+            "alt_km": 1799.0,
+            "huella_km": 1098.0
+          },
+          {
+            "sat": 7,
+            "lat": 14.73,
+            "lon": 3.16,
+            "alt_km": 1361.0,
+            "huella_km": 818.0
+          }
+        ]
+      },
+      {
+        "scenario": "R2 R1 + techo 1200 km",
+        "seed": 0,
+        "fitness": 0.8742,
+        "initial_fitness": 0.1702,
+        "feasible": true,
+        "violation_deg": 0.0,
+        "regions_covered": 6,
+        "weighted_coverage": 1.0,
+        "accepted": false,
+        "convergence_gen": 224,
+        "full_coverage_gen": 99,
+        "generations": 400,
+        "evaluations": 48122,
+        "time_s": 3.9,
+        "bound": 0.9164,
+        "regions": [
+          {
+            "región": "Península de Yucatán",
+            "prioridad": "alta",
+            "peso": 3.0,
+            "cobertura": 1.0,
+            "redundancia": 0.0,
+            "resolución": 0.104,
+            "score": 0.716,
+            "cubierta": "sí",
+            "satélites": "1"
+          },
+          {
+            "región": "Amazonía brasileña",
+            "prioridad": "alta",
+            "peso": 3.0,
+            "cobertura": 1.0,
+            "redundancia": 1.0,
+            "resolución": 0.979,
+            "score": 0.997,
+            "cubierta": "sí",
+            "satélites": "2,4"
+          },
+          {
+            "región": "California",
+            "prioridad": "media",
+            "peso": 2.0,
+            "cobertura": 1.0,
+            "redundancia": 0.0,
+            "resolución": 0.976,
+            "score": 0.846,
+            "cubierta": "sí",
+            "satélites": "0"
+          },
+          {
+            "región": "Sahel",
+            "prioridad": "media",
+            "peso": 2.0,
+            "cobertura": 1.0,
+            "redundancia": 1.0,
+            "resolución": 0.976,
+            "score": 0.996,
+            "cubierta": "sí",
+            "satélites": "6,7"
+          },
+          {
+            "región": "Japón",
+            "prioridad": "media",
+            "peso": 2.0,
+            "cobertura": 1.0,
+            "redundancia": 0.0,
+            "resolución": 0.979,
+            "score": 0.847,
+            "cubierta": "sí",
+            "satélites": "5"
+          },
+          {
+            "región": "Interior de Australia",
+            "prioridad": "normal",
+            "peso": 1.0,
+            "cobertura": 1.0,
+            "redundancia": 0.0,
+            "resolución": 0.979,
+            "score": 0.847,
+            "cubierta": "sí",
+            "satélites": "3"
+          }
+        ],
+        "satellites": [
+          {
+            "sat": 0,
+            "lat": 36.8,
+            "lon": -119.41,
+            "alt_km": 517.0,
+            "huella_km": 303.0
+          },
+          {
+            "sat": 1,
+            "lat": 17.25,
+            "lon": -88.15,
+            "alt_km": 1127.0,
+            "huella_km": 672.0
+          },
+          {
+            "sat": 2,
+            "lat": -3.5,
+            "lon": -62.0,
+            "alt_km": 515.0,
+            "huella_km": 301.0
+          },
+          {
+            "sat": 3,
+            "lat": -25.0,
+            "lon": 133.0,
+            "alt_km": 515.0,
+            "huella_km": 301.0
+          },
+          {
+            "sat": 4,
+            "lat": -6.21,
+            "lon": -63.37,
+            "alt_km": 1126.0,
+            "huella_km": 672.0
+          },
+          {
+            "sat": 5,
+            "lat": 36.0,
+            "lon": 137.99,
+            "alt_km": 514.0,
+            "huella_km": 301.0
+          },
+          {
+            "sat": 6,
+            "lat": 14.98,
+            "lon": -0.0,
+            "alt_km": 517.0,
+            "huella_km": 303.0
+          },
+          {
+            "sat": 7,
+            "lat": 17.26,
+            "lon": 1.36,
+            "alt_km": 1159.0,
+            "huella_km": 692.0
+          }
+        ]
+      },
+      {
+        "scenario": "R3 R2 + zona sobre Japón",
+        "seed": 0,
+        "fitness": 0.8697,
+        "initial_fitness": 0.1702,
+        "feasible": true,
+        "violation_deg": 0.0,
+        "regions_covered": 6,
+        "weighted_coverage": 1.0,
+        "accepted": false,
+        "convergence_gen": 249,
+        "full_coverage_gen": 118,
+        "generations": 400,
+        "evaluations": 48122,
+        "time_s": 4.05,
+        "bound": 0.9164,
+        "regions": [
+          {
+            "región": "Península de Yucatán",
+            "prioridad": "alta",
+            "peso": 3.0,
+            "cobertura": 1.0,
+            "redundancia": 0.0,
+            "resolución": 0.104,
+            "score": 0.716,
+            "cubierta": "sí",
+            "satélites": "1"
+          },
+          {
+            "región": "Amazonía brasileña",
+            "prioridad": "alta",
+            "peso": 3.0,
+            "cobertura": 1.0,
+            "redundancia": 1.0,
+            "resolución": 0.979,
+            "score": 0.997,
+            "cubierta": "sí",
+            "satélites": "0,5"
+          },
+          {
+            "región": "California",
+            "prioridad": "media",
+            "peso": 2.0,
+            "cobertura": 1.0,
+            "redundancia": 0.0,
+            "resolución": 0.978,
+            "score": 0.847,
+            "cubierta": "sí",
+            "satélites": "3"
+          },
+          {
+            "región": "Sahel",
+            "prioridad": "media",
+            "peso": 2.0,
+            "cobertura": 1.0,
+            "redundancia": 1.0,
+            "resolución": 0.974,
+            "score": 0.996,
+            "cubierta": "sí",
+            "satélites": "2,7"
+          },
+          {
+            "región": "Japón",
+            "prioridad": "media",
+            "peso": 2.0,
+            "cobertura": 1.0,
+            "redundancia": 0.0,
+            "resolución": 0.791,
+            "score": 0.819,
+            "cubierta": "sí",
+            "satélites": "4"
+          },
+          {
+            "región": "Interior de Australia",
+            "prioridad": "normal",
+            "peso": 1.0,
+            "cobertura": 1.0,
+            "redundancia": 0.0,
+            "resolución": 0.976,
+            "score": 0.846,
+            "cubierta": "sí",
+            "satélites": "6"
+          }
+        ],
+        "satellites": [
+          {
+            "sat": 0,
+            "lat": -3.49,
+            "lon": -62.0,
+            "alt_km": 515.0,
+            "huella_km": 301.0
+          },
+          {
+            "sat": 1,
+            "lat": 17.28,
+            "lon": -88.06,
+            "alt_km": 1127.0,
+            "huella_km": 672.0
+          },
+          {
+            "sat": 2,
+            "lat": 15.0,
+            "lon": -0.02,
+            "alt_km": 518.0,
+            "huella_km": 303.0
+          },
+          {
+            "sat": 3,
+            "lat": 36.78,
+            "lon": -119.4,
+            "alt_km": 516.0,
+            "huella_km": 302.0
+          },
+          {
+            "sat": 4,
+            "lat": 35.38,
+            "lon": 137.58,
+            "alt_km": 646.0,
+            "huella_km": 380.0
+          },
+          {
+            "sat": 5,
+            "lat": -4.35,
+            "lon": -64.11,
+            "alt_km": 1043.0,
+            "huella_km": 621.0
+          },
+          {
+            "sat": 6,
+            "lat": -25.01,
+            "lon": 133.0,
+            "alt_km": 517.0,
+            "huella_km": 303.0
+          },
+          {
+            "sat": 7,
+            "lat": 15.42,
+            "lon": -2.69,
+            "alt_km": 1168.0,
+            "huella_km": 698.0
+          }
+        ]
+      }
+    ],
+    "unconstrained_R1": {
+      "scenario": "R1 +zona sobre Yucatán",
+      "seed": 0,
+      "fitness": 0.9174,
+      "initial_fitness": 0.2696,
+      "feasible": false,
+      "violation_deg": 9.56,
+      "regions_covered": 6,
+      "weighted_coverage": 1.0,
+      "accepted": false,
+      "convergence_gen": 188,
+      "full_coverage_gen": 13,
+      "generations": 400,
+      "evaluations": 48122,
+      "time_s": 3.09,
+      "bound": 0.9179,
+      "violations": [
+        "S0 en Desechos Golfo de México (2.66° < 6.0°)",
+        "S4 en Desechos Golfo de México (2.54° < 6.0°)",
+        "S0 en sat 4 (0.14° < 2.0°)",
+        "S2 en sat 6 (1.09° < 2.0°)"
+      ]
+    }
+  },
+  "E6": {
+    "I1 Amazonía inalcanzable": {
+      "scenario": "I1 Amazonía inalcanzable",
+      "seed": 0,
+      "fitness": 0.7334,
+      "initial_fitness": 0.2103,
+      "feasible": true,
+      "violation_deg": 0.0,
+      "regions_covered": 5,
+      "weighted_coverage": 0.7692,
+      "accepted": false,
+      "convergence_gen": 189,
+      "full_coverage_gen": null,
+      "generations": 400,
+      "evaluations": 48122,
+      "time_s": 3.86,
+      "bound": 0.9179,
+      "regions": [
+        {
+          "región": "Península de Yucatán",
+          "prioridad": "alta",
+          "peso": 3.0,
+          "cobertura": 1.0,
+          "redundancia": 1.0,
+          "resolución": 0.989,
+          "score": 0.998,
+          "cubierta": "sí",
+          "satélites": "2,3"
+        },
+        {
+          "región": "Amazonía brasileña",
+          "prioridad": "alta",
+          "peso": 3.0,
+          "cobertura": 0.0,
+          "redundancia": 0.0,
+          "resolución": 0.0,
+          "score": 0.0,
+          "cubierta": "NO",
+          "satélites": "-"
+        },
+        {
+          "región": "California",
+          "prioridad": "media",
+          "peso": 2.0,
+          "cobertura": 1.0,
+          "redundancia": 0.0,
+          "resolución": 0.99,
+          "score": 0.849,
+          "cubierta": "sí",
+          "satélites": "5"
+        },
+        {
+          "región": "Sahel",
+          "prioridad": "media",
+          "peso": 2.0,
+          "cobertura": 1.0,
+          "redundancia": 1.0,
+          "resolución": 0.991,
+          "score": 0.999,
+          "cubierta": "sí",
+          "satélites": "0,6"
+        },
+        {
+          "región": "Japón",
+          "prioridad": "media",
+          "peso": 2.0,
+          "cobertura": 1.0,
+          "redundancia": 1.0,
+          "resolución": 0.991,
+          "score": 0.999,
+          "cubierta": "sí",
+          "satélites": "1,7"
+        },
+        {
+          "región": "Interior de Australia",
+          "prioridad": "normal",
+          "peso": 1.0,
+          "cobertura": 1.0,
+          "redundancia": 0.0,
+          "resolución": 0.988,
+          "score": 0.848,
+          "cubierta": "sí",
+          "satélites": "4"
+        }
+      ],
+      "violations": [],
+      "n_violations": 0
+    },
+    "I2 solo 5 satélites": {
+      "scenario": "I2 solo 5 satélites",
+      "seed": 0,
+      "fitness": 0.7668,
+      "initial_fitness": 0.1969,
+      "feasible": true,
+      "violation_deg": 0.0,
+      "regions_covered": 5,
+      "weighted_coverage": 0.9231,
+      "accepted": false,
+      "convergence_gen": 265,
+      "full_coverage_gen": null,
+      "generations": 400,
+      "evaluations": 48122,
+      "time_s": 3.14,
+      "bound": 0.8487,
+      "regions": [
+        {
+          "región": "Península de Yucatán",
+          "prioridad": "alta",
+          "peso": 3.0,
+          "cobertura": 1.0,
+          "redundancia": 0.0,
+          "resolución": 0.989,
+          "score": 0.848,
+          "cubierta": "sí",
+          "satélites": "2"
+        },
+        {
+          "región": "Amazonía brasileña",
+          "prioridad": "alta",
+          "peso": 3.0,
+          "cobertura": 1.0,
+          "redundancia": 0.0,
+          "resolución": 0.989,
+          "score": 0.848,
+          "cubierta": "sí",
+          "satélites": "0"
+        },
+        {
+          "región": "California",
+          "prioridad": "media",
+          "peso": 2.0,
+          "cobertura": 1.0,
+          "redundancia": 0.0,
+          "resolución": 0.286,
+          "score": 0.743,
+          "cubierta": "sí",
+          "satélites": "1"
+        },
+        {
+          "región": "Sahel",
+          "prioridad": "media",
+          "peso": 2.0,
+          "cobertura": 1.0,
+          "redundancia": 0.0,
+          "resolución": 0.988,
+          "score": 0.848,
+          "cubierta": "sí",
+          "satélites": "4"
+        },
+        {
+          "región": "Japón",
+          "prioridad": "media",
+          "peso": 2.0,
+          "cobertura": 1.0,
+          "redundancia": 0.0,
+          "resolución": 0.989,
+          "score": 0.848,
+          "cubierta": "sí",
+          "satélites": "3"
+        },
+        {
+          "región": "Interior de Australia",
+          "prioridad": "normal",
+          "peso": 1.0,
+          "cobertura": 0.0,
+          "redundancia": 0.0,
+          "resolución": 0.0,
+          "score": 0.0,
+          "cubierta": "NO",
+          "satélites": "-"
+        }
+      ],
+      "violations": [],
+      "n_violations": 0
+    },
+    "I3 separación 80° imposible": {
+      "scenario": "I3 separación 80° imposible",
+      "seed": 0,
+      "fitness": 0.0,
+      "initial_fitness": 0.0,
+      "feasible": false,
+      "violation_deg": 65.008,
+      "regions_covered": 0,
+      "weighted_coverage": 0.0,
+      "accepted": false,
+      "convergence_gen": null,
+      "full_coverage_gen": null,
+      "generations": 400,
+      "evaluations": 48122,
+      "time_s": 3.73,
+      "bound": 0.9179,
+      "regions": [
+        {
+          "región": "Península de Yucatán",
+          "prioridad": "alta",
+          "peso": 3.0,
+          "cobertura": 0.0,
+          "redundancia": 0.0,
+          "resolución": 0.0,
+          "score": 0.0,
+          "cubierta": "NO",
+          "satélites": "-"
+        },
+        {
+          "región": "Amazonía brasileña",
+          "prioridad": "alta",
+          "peso": 3.0,
+          "cobertura": 0.0,
+          "redundancia": 0.0,
+          "resolución": 0.0,
+          "score": 0.0,
+          "cubierta": "NO",
+          "satélites": "-"
+        },
+        {
+          "región": "California",
+          "prioridad": "media",
+          "peso": 2.0,
+          "cobertura": 0.0,
+          "redundancia": 0.0,
+          "resolución": 0.0,
+          "score": 0.0,
+          "cubierta": "NO",
+          "satélites": "-"
+        },
+        {
+          "región": "Sahel",
+          "prioridad": "media",
+          "peso": 2.0,
+          "cobertura": 0.0,
+          "redundancia": 0.0,
+          "resolución": 0.0,
+          "score": 0.0,
+          "cubierta": "NO",
+          "satélites": "-"
+        },
+        {
+          "región": "Japón",
+          "prioridad": "media",
+          "peso": 2.0,
+          "cobertura": 0.0,
+          "redundancia": 0.0,
+          "resolución": 0.0,
+          "score": 0.0,
+          "cubierta": "NO",
+          "satélites": "-"
+        },
+        {
+          "región": "Interior de Australia",
+          "prioridad": "normal",
+          "peso": 1.0,
+          "cobertura": 0.0,
+          "redundancia": 0.0,
+          "resolución": 0.0,
+          "score": 0.0,
+          "cubierta": "NO",
+          "satélites": "-"
+        }
+      ],
+      "violations": [
+        "S0: separation sat 1 (69.6° < 80.0°)",
+        "S0: separation sat 2 (80.0° < 80.0°)",
+        "S0: separation sat 3 (80.0° < 80.0°)",
+        "S0: separation sat 6 (80.0° < 80.0°)",
+        "S1: separation sat 3 (80.0° < 80.0°)",
+        "S1: separation sat 7 (78.2° < 80.0°)",
+        "S2: separation sat 7 (64.5° < 80.0°)",
+        "S3: separation sat 5 (72.3° < 80.0°)",
+        "S3: separation sat 6 (72.2° < 80.0°)",
+        "S4: separation sat 5 (67.6° < 80.0°)",
+        "S4: separation sat 6 (70.6° < 80.0°)",
+        "S4: separation sat 7 (80.0° < 80.0°)"
+      ],
+      "n_violations": 13
+    }
+  },
+  "E8": {
+    "con_redundancia": [
+      {
+        "satélite_fallado": 0,
+        "fitness": 0.7869,
+        "cobertura_ponderada": 0.8462,
+        "regiones_cubiertas": 5,
+        "regiones_perdidas": "California"
+      },
+      {
+        "satélite_fallado": 1,
+        "fitness": 0.8828,
+        "cobertura_ponderada": 1.0,
+        "regiones_cubiertas": 6,
+        "regiones_perdidas": "ninguna"
+      },
+      {
+        "satélite_fallado": 2,
+        "fitness": 0.8524,
+        "cobertura_ponderada": 0.9231,
+        "regiones_cubiertas": 5,
+        "regiones_perdidas": "Interior de Australia"
+      },
+      {
+        "satélite_fallado": 3,
+        "fitness": 0.8613,
+        "cobertura_ponderada": 1.0,
+        "regiones_cubiertas": 6,
+        "regiones_perdidas": "ninguna"
+      },
+      {
+        "satélite_fallado": 4,
+        "fitness": 0.7869,
+        "cobertura_ponderada": 0.8462,
+        "regiones_cubiertas": 5,
+        "regiones_perdidas": "Sahel"
+      },
+      {
+        "satélite_fallado": 5,
+        "fitness": 0.8828,
+        "cobertura_ponderada": 1.0,
+        "regiones_cubiertas": 6,
+        "regiones_perdidas": "ninguna"
+      },
+      {
+        "satélite_fallado": 6,
+        "fitness": 0.8592,
+        "cobertura_ponderada": 1.0,
+        "regiones_cubiertas": 6,
+        "regiones_perdidas": "ninguna"
+      },
+      {
+        "satélite_fallado": 7,
+        "fitness": 0.7869,
+        "cobertura_ponderada": 0.8462,
+        "regiones_cubiertas": 5,
+        "regiones_perdidas": "Japón"
+      }
+    ],
+    "sin_redundancia": [
+      {
+        "satélite_fallado": 0,
+        "fitness": 0.7179,
+        "cobertura_ponderada": 0.8462,
+        "regiones_cubiertas": 5,
+        "regiones_perdidas": "California"
+      },
+      {
+        "satélite_fallado": 1,
+        "fitness": 0.7831,
+        "cobertura_ponderada": 0.9231,
+        "regiones_cubiertas": 5,
+        "regiones_perdidas": "Interior de Australia"
+      },
+      {
+        "satélite_fallado": 2,
+        "fitness": 0.8484,
+        "cobertura_ponderada": 1.0,
+        "regiones_cubiertas": 6,
+        "regiones_perdidas": "ninguna"
+      },
+      {
+        "satélite_fallado": 3,
+        "fitness": 0.8484,
+        "cobertura_ponderada": 1.0,
+        "regiones_cubiertas": 6,
+        "regiones_perdidas": "ninguna"
+      },
+      {
+        "satélite_fallado": 4,
+        "fitness": 0.6526,
+        "cobertura_ponderada": 0.7692,
+        "regiones_cubiertas": 5,
+        "regiones_perdidas": "Península de Yucatán"
+      },
+      {
+        "satélite_fallado": 5,
+        "fitness": 0.7179,
+        "cobertura_ponderada": 0.8462,
+        "regiones_cubiertas": 5,
+        "regiones_perdidas": "Sahel"
+      },
+      {
+        "satélite_fallado": 6,
+        "fitness": 0.7179,
+        "cobertura_ponderada": 0.8462,
+        "regiones_cubiertas": 5,
+        "regiones_perdidas": "Japón"
+      },
+      {
+        "satélite_fallado": 7,
+        "fitness": 0.6526,
+        "cobertura_ponderada": 0.7692,
+        "regiones_cubiertas": 5,
+        "regiones_perdidas": "Amazonía brasileña"
+      }
+    ],
+    "summary": {
+      "con_redundancia": {
+        "fitness_media_N-1": 0.8374,
+        "peor_regiones_cubiertas": 5,
+        "fallos_sin_pérdida": 4
+      },
+      "sin_redundancia": {
+        "fitness_media_N-1": 0.74235,
+        "peor_regiones_cubiertas": 5,
+        "fallos_sin_pérdida": 2
+      }
+    }
+  },
+  "E9": {
+    "prioridad": {
+      "revalidación": {
+        "válida_antes": true,
+        "válida_ahora": true,
+        "fitness_antes": 0.9174,
+        "fitness_ahora": 0.9078,
+        "regiones_cubiertas_ahora": 6,
+        "violaciones": [],
+        "aceptada_ahora": true
+      },
+      "reoptimizado": {
+        "scenario": "C1 Australia -> Alta",
+        "seed": 0,
+        "fitness": 0.9086,
+        "initial_fitness": 0.9078,
+        "feasible": true,
+        "violation_deg": 0.0,
+        "regions_covered": 6,
+        "weighted_coverage": 1.0,
+        "accepted": true,
+        "convergence_gen": 0,
+        "full_coverage_gen": 0,
+        "generations": 400,
+        "evaluations": 48122,
+        "time_s": 3.72,
+        "bound": 0.9087
+      }
+    },
+    "zona_nueva": {
+      "revalidación": {
+        "válida_antes": true,
+        "válida_ahora": false,
+        "fitness_antes": 0.9174,
+        "fitness_ahora": 0.9174,
+        "regiones_cubiertas_ahora": 6,
+        "violaciones": [
+          "sat 7 en Desechos nuevos (0.00° < 3.0°)"
+        ],
+        "aceptada_ahora": false
+      },
+      "warm": {
+        "scenario": "C2 nueva zona sobre Japón",
+        "seed": 0,
+        "fitness": 0.9092,
+        "initial_fitness": 0.7868,
+        "feasible": true,
+        "violation_deg": 0.0,
+        "regions_covered": 6,
+        "weighted_coverage": 1.0,
+        "accepted": true,
+        "convergence_gen": 26,
+        "full_coverage_gen": 26,
+        "generations": 150,
+        "evaluations": 18122,
+        "time_s": 1.47,
+        "bound": 0.9179
+      },
+      "cold": {
+        "scenario": "C2 nueva zona sobre Japón",
+        "seed": 0,
+        "fitness": 0.882,
+        "initial_fitness": 0.2103,
+        "feasible": true,
+        "violation_deg": 0.0,
+        "regions_covered": 6,
+        "weighted_coverage": 1.0,
+        "accepted": false,
+        "convergence_gen": 96,
+        "full_coverage_gen": 16,
+        "generations": 150,
+        "evaluations": 18122,
+        "time_s": 1.45,
+        "bound": 0.9179
+      }
+    }
+  },
+  "E10": [
+    {
+      "variante": "configuración final",
+      "fitness_media": 0.8963,
+      "fitness_std": 0.0059,
+      "válidas": 5,
+      "conv_gen_media": 197.2
+    },
+    {
+      "variante": "sin alineación en cruce",
+      "fitness_media": 0.8953,
+      "fitness_std": 0.0052,
+      "válidas": 5,
+      "conv_gen_media": 188.4
+    },
+    {
+      "variante": "sin reparación",
+      "fitness_media": 0.8939,
+      "fitness_std": 0.0054,
+      "válidas": 5,
+      "conv_gen_media": 216.8
+    },
+    {
+      "variante": "sin elitismo",
+      "fitness_media": 0.8969,
+      "fitness_std": 0.0056,
+      "válidas": 5,
+      "conv_gen_media": 259.8
+    },
+    {
+      "variante": "mutación alta (0.5)",
+      "fitness_media": 0.8892,
+      "fitness_std": 0.0072,
+      "válidas": 5,
+      "conv_gen_media": 303.6
+    },
+    {
+      "variante": "penalización en vez de Deb",
+      "fitness_media": 0.8964,
+      "fitness_std": 0.0065,
+      "válidas": 5,
+      "conv_gen_media": 200.6
+    },
+    {
+      "variante": "población 40",
+      "fitness_media": 0.8894,
+      "fitness_std": 0.0014,
+      "válidas": 5,
+      "conv_gen_media": 226.2
+    }
+  ],
+  "elapsed_s": 219.2
+}

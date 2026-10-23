@@ -1,0 +1,8 @@
+variante,fitness_media,fitness_std,válidas,conv_gen_media
+configuración final,0.8963,0.0059,5,197.2
+sin alineación en cruce,0.8953,0.0052,5,188.4
+sin reparación,0.8939,0.0054,5,216.8
+sin elitismo,0.8969,0.0056,5,259.8
+mutación alta (0.5),0.8892,0.0072,5,303.6
+penalización en vez de Deb,0.8964,0.0065,5,200.6
+población 40,0.8894,0.0014,5,226.2
