@@ -4,3 +4,9 @@ __pycache__/
 .pytest_cache/
 .ipynb_checkpoints/
 .DS_Store
+# files created when the notebook runs from inside notebooks/
+notebooks/astroshield/
+notebooks/tests/
+notebooks/outputs/
+notebooks/pytest.ini
+astroshield_resultados.zip

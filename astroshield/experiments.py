@@ -146,10 +146,14 @@ def e6_infeasible(cfg: GAConfig = None, seed: int = 0):
     return {k: run_ga(sc, cfg, seed=seed) for k, sc in infeasible_scenarios().items()}
 
 
-def e7_variation(cfg: GAConfig = None, seeds=range(10)):
+def e7_variation(cfg: GAConfig = None, seeds=range(10), progress: bool = False):
     """Repeated runs + baselines with the same evaluation budget."""
     sc = default_scenario()
-    runs = [run_ga(sc, cfg, seed=s) for s in seeds]
+    runs = []
+    for k, s in enumerate(seeds, 1):
+        runs.append(run_ga(sc, cfg, seed=s))
+        if progress:
+            print(f"  semilla {s}: fitness {runs[-1].best_eval.fitness:.4f} ({k}/{len(seeds)})", flush=True)
     table = pd.DataFrame([summarize(r) for r in runs])
     budget = runs[0].evaluations
     rnd = [random_search(sc, budget, seed=1000 + s)[1][-1][1] for s in seeds]
@@ -269,12 +273,14 @@ ABLATIONS = {
 }
 
 
-def e10_ablation(cfg: GAConfig = None, seeds=range(3), scenario: Scenario = None):
+def e10_ablation(cfg: GAConfig = None, seeds=range(3), scenario: Scenario = None, progress: bool = False):
     """Effect of each operator / parameter choice on the final quality."""
     cfg = cfg or GAConfig()
     sc = scenario or reduced_space_scenarios()[1]  # constraints actually bind here
     rows = []
     for name, change in ABLATIONS.items():
+        if progress:
+            print(f"  variante: {name}", flush=True)
         for s in seeds:
             r = run_ga(sc, replace(cfg, **change), seed=s)
             rows.append(

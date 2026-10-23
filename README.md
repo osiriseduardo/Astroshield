@@ -30,7 +30,7 @@ así que también se puede revisar sin ejecutarlo.
 ```bash
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
-python -m pytest                       # 35 pruebas unitarias
+python -m pytest                       # 36 pruebas unitarias
 python tools/run_experiments.py        # todas las pruebas E1–E10 → outputs/ (≈ 4 min)
 open outputs/globe.html                # globo 3D interactivo
 python tools/build_notebook.py --execute   # regenera el notebook desde el código fuente
@@ -91,7 +91,7 @@ de los módulos, las pruebas y la documentación, y generar el notebook.
 
 Verificaciones que hizo el equipo sobre esos resultados:
 
-* Revisar y ejecutar las 35 pruebas unitarias, incluidas las que comprueban la geometría con valores conocidos
+* Revisar y ejecutar las 36 pruebas unitarias, incluidas las que comprueban la geometría con valores conocidos
   (por ejemplo, la distancia entre (0°, 0°) y (0°, 90°) es 90°).
 * Verificar a mano la fórmula de la huella (λ a 500 km = 293 km < 300 km) y la cota de referencia.
 * Auditar con un cálculo independiente que ninguna solución final viola zonas (E3/E4).

@@ -18,7 +18,7 @@ import nbformat as nbf
 ROOT = Path(__file__).resolve().parents[1]
 NB_PATH = ROOT / "notebooks" / "AstroShield.ipynb"
 MODULES = ["__init__", "geo", "scenario", "evaluation", "ga", "baselines", "experiments", "viz"]
-TESTS = ["test_model", "test_ga"]
+TESTS = ["test_model", "test_ga", "test_viz"]
 
 cells = []
 
@@ -50,11 +50,17 @@ de la Tierra, respetando zonas de desechos espaciales y posiciones ocupadas, con
 | **Restricciones** | reglas de factibilidad de Deb + reparación probabilística + separación mínima de 2° |
 | **Resultado de referencia** | fitness **{e2['fitness']:.4f}** (cota de referencia {e2['bound']['fitness']:.4f}), 6/6 regiones, 0 violaciones |
 
-> **Cómo usar este notebook:** `Entorno de ejecución → Ejecutar todo` (≈ 5 min en Colab).
-> La sección 0 crea el paquete `astroshield` dentro de Colab. No hace falta instalar nada:
-> numpy, scipy, pandas, matplotlib y plotly ya vienen en Colab.
+> **Cómo usarlo en Google Colab**
+> 1. `Entorno de ejecución → Ejecutar todo`. Si Colab advierte que el notebook "no fue creado por Google", elige
+>    **Ejecutar de todos modos**: el notebook no usa tu Drive ni pide permisos.
+> 2. Tiempo aproximado: **≈ 6 min** en modo `completo` y **≈ 2 min** en modo `rápido` (lo eliges en la celda de configuración).
+> 3. La sección 0 crea el paquete `astroshield` dentro de Colab y verifica las librerías; si falta alguna, la instala.
+> 4. Al final, la sección 9 descarga un `.zip` con todas las figuras, CSV y el globo 3D.
+>
+> Las interpretaciones citan los valores de la **ejecución de referencia** (modo completo). En modo rápido los números
+> pueden variar un poco.
 
-**Índice:** 0 Instalación · 1 Modelo · 2 Etapa 1 · 3 Etapa 2 · 4 Globo 3D · 5 Pruebas (E3–E10) · 6 Pruebas unitarias · 7 Laboratorio interactivo · 8 Conclusiones
+**Índice:** 0 Instalación · 1 Modelo · 2 Etapa 1 · 3 Etapa 2 · 4 Globo 3D · 5 Pruebas (E3–E10) · 6 Pruebas unitarias · 7 Laboratorio interactivo · 8 Conclusiones · 9 Descarga
 """)
 
     md("""
@@ -81,10 +87,27 @@ Cada celda escribe un módulo del repositorio. Están colapsadas para no estorba
         code(f"%%writefile tests/{t}.py\n{src}", hidden=True)
     code("%%writefile pytest.ini\n[pytest]\ntestpaths = tests\npythonpath = .", hidden=True)
 
+    md("### Verificación del entorno y configuración")
     code("""
-import importlib, sys, warnings
+import importlib, importlib.util, subprocess, sys, warnings
+IN_COLAB = "google.colab" in sys.modules
+REQUIRED = {"numpy": "numpy", "scipy": "scipy", "pandas": "pandas", "matplotlib": "matplotlib",
+            "plotly": "plotly", "pytest": "pytest"}
+missing = [pkg for mod, pkg in REQUIRED.items() if importlib.util.find_spec(mod) is None]
+if missing:
+    print("Instalando:", missing)
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "-q", *missing])
+for mod in REQUIRED:
+    print(f"  {mod:<11}", importlib.import_module(mod).__version__)
+print("Python", sys.version.split()[0], "| Colab:", IN_COLAB)
+""")
+    code("""
+#@title Configuración de la ejecución
+MODO = "completo"  #@param ["completo", "rápido"]
 warnings.filterwarnings("ignore")
 sys.path.insert(0, ".")
+for _m in [m for m in sys.modules if m == "astroshield" or m.startswith("astroshield.")]:
+    del sys.modules[_m]  # re-running the notebook picks up edited %%writefile cells
 import numpy as np, pandas as pd, matplotlib.pyplot as plt
 from IPython.display import display, Markdown
 import astroshield
@@ -96,10 +119,15 @@ from astroshield.geo import deg_to_km
 from astroshield.viz import (apply_theme, plot_evolution, plot_runs, plot_regions, plot_mission_map,
                              show_globe, plotly_comparison)
 apply_theme()
+import plotly.io as pio
+pio.renderers.default = "colab" if IN_COLAB else "notebook_connected"  # keeps the notebook light
 pd.set_option("display.width", 160)
-CFG = GAConfig()          # parámetros finales (ver sección 5.8, calibración)
-N_SEEDS = 10  #@param {type:"integer"}
-print("AstroShield", astroshield.__version__, "| GA:", CFG)
+if MODO == "completo":
+    CFG, N_SEEDS, N_ABLATION = GAConfig(), 10, 5        # parámetros finales (sección 5.8)
+else:
+    CFG, N_SEEDS, N_ABLATION = GAConfig(generations=200), 5, 3
+print("AstroShield", astroshield.__version__, "| modo:", MODO, "| semillas:", N_SEEDS)
+print("GA:", CFG)
 """)
 
     # ------------------------------------------------------------------ model
@@ -229,7 +257,7 @@ conclusión debe ser la misma.
 uno por uno, siempre el de mayor ganancia.
 """)
     code("""
-runs, table, summary, rnd, dist = X.e7_variation(CFG, seeds=range(N_SEEDS))
+runs, table, summary, rnd, dist = X.e7_variation(CFG, seeds=range(N_SEEDS), progress=True)
 display(table[["seed", "fitness", "initial_fitness", "regions_covered", "accepted", "full_coverage_gen", "convergence_gen", "time_s"]])
 display(pd.Series(summary).to_frame("valor"))
 plot_runs(runs); plt.show()
@@ -420,7 +448,7 @@ print("✔ El globo muestra exactamente la configuración, el fitness y la cober
        "**Condiciones:** escenario R1 (las restricciones sí afectan aquí), 5 semillas por variante. Se apaga un operador "
        "a la vez para medir su aporte.")
     code("""
-abl_runs, abl = X.e10_ablation(CFG, seeds=range(5))
+abl_runs, abl = X.e10_ablation(CFG, seeds=range(N_ABLATION), progress=True)
 display(abl)
 fig, ax = plt.subplots(figsize=(9, 3.8))
 ax.barh(abl["variante"], abl["fitness_media"], xerr=abl["fitness_std"], color="#22D3EE")
@@ -477,6 +505,26 @@ _ = show_globe(lab, {"Solución base": base.best, "Re-optimizada": rl.best}, hei
 4. **Limitaciones** (ver `docs/04_analisis_resultados.md`): el modelo es estático (sin órbitas ni revisita), la
    resolución es lineal en la altitud, los pesos 0.70/0.15/0.15 son decisiones de diseño, la cota de referencia es una
    relajación y el muestreo de 49 puntos aproxima el área.
+""")
+
+    md("## 9. Descargar los resultados\n\nEmpaqueta `outputs/` (globo 3D y figuras) y el código en un `.zip`. En Colab se descarga automáticamente.")
+    code("""
+for name, fig in [("fig_evolucion.png", plot_evolution(base)), ("fig_mapa.png", plot_mission_map(base.scenario, base.best, base.initial_best)),
+                  ("fig_convergencia.png", plot_runs(runs))]:
+    fig.savefig(f"outputs/{name}", dpi=130); plt.close(fig)
+base.history_frame().to_csv("outputs/historial_base.csv", index=False)
+table.to_csv("outputs/ejecuciones_semillas.csv", index=False)
+import zipfile, os
+with zipfile.ZipFile("astroshield_resultados.zip", "w", zipfile.ZIP_DEFLATED) as z:
+    for folder in ("outputs", "astroshield", "tests"):
+        for root, _, files in os.walk(folder):
+            for f in files:
+                if not f.endswith(".pyc"):
+                    z.write(os.path.join(root, f))
+print("Creado astroshield_resultados.zip con", len(zipfile.ZipFile("astroshield_resultados.zip").namelist()), "archivos")
+if IN_COLAB:
+    from google.colab import files
+    files.download("astroshield_resultados.zip")
 """)
 
 
