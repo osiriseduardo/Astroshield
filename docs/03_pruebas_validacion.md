@@ -4,7 +4,7 @@ Todos los valores salen de la ejecución de referencia `python tools/run_experim
 `outputs/results.json`, los CSV y las figuras `outputs/fig_*.png`. Se usaron los parámetros finales (población 120,
 400 generaciones) y la semilla 0, salvo que se indique otra cosa. El notebook vuelve a ejecutar cada prueba.
 
-Además hay **35 pruebas unitarias automatizadas** (`pytest`, en `tests/`). Todas pasan.
+Además hay **36 pruebas unitarias automatizadas** (`pytest`, en `tests/`). Todas pasan.
 
 ---
 
@@ -155,3 +155,4 @@ Figura: `fig_e9_reoptimizacion.png`.
 |---|---|
 | `test_model.py` | haversine con valores conocidos, destino y rumbo, muestreo de la región, huella monótona en la altitud, que 500 km no cubra 300 km, cobertura total con un satélite encima, coincidencia entre la evaluación por lotes y la individual, que **cada una de las 5 zonas** se detecte, el borde de una zona, la separación, que una zona nueva invalide una configuración, la cota y el criterio C3 adaptativo |
 | `test_ga.py` | que el AG mejore, que la curva sea monótona (elitismo), que la solución final respete cada zona, los límites de altitud, la reproducibilidad por semilla, que el caso inviable se reporte, la región inalcanzable, el warm start, que el AG le gane a la búsqueda aleatoria, la cota, la reparación, la alineación y la reflexión de altitud |
+| `test_viz.py` | que las etiquetas del globo usen texto HTML y conserven los acentos (Península de Yucatán, Amazonía, Japón) |

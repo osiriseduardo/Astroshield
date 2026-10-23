@@ -291,13 +291,36 @@ const G = Globe()(el).width(wrap.clientWidth).height(wrap.clientHeight)
   .polygonLabel(d => d.properties.tip)
   .pointLat('lat').pointLng('lng').pointAltitude('alt').pointRadius(d => d.r).pointColor('color')
   .pointLabel('tip').pointsMerge(false).pointsTransitionDuration(600)
-  .labelLat('lat').labelLng('lng').labelText('text').labelSize(d => d.size).labelColor('color')
-  .labelDotRadius(d => d.dot).labelAltitude(d => d.alt || 0.012).labelResolution(3)
+  // Browser text supports Spanish glyphs missing from the default 3D typeface.
+  .htmlLat('lat').htmlLng('lng').htmlAltitude(d => d.alt || 0.012)
+  .htmlElement(d => {
+    const label = document.createElement('span');
+    label.textContent = d.text;
+    label.style.color = d.color;
+    label.style.fontFamily = 'system-ui, sans-serif';
+    label.style.fontSize = `${Math.round(18 * d.size)}px`;
+    label.style.whiteSpace = 'nowrap';
+    label.style.pointerEvents = 'none';
+    label.style.textShadow = '0 1px 3px #000';
+    label.style.transition = 'opacity .2s';
+    d.el = label;
+    return label;
+  })
   .ringLat('lat').ringLng('lng').ringColor(d => t => d.rgba.replace('A', 1 - t))
   .ringMaxRadius(4).ringPropagationSpeed(1.2).ringRepeatPeriod(1600);
 G.pointOfView({lat: 15, lng: -70, altitude: 2.3});
 G.controls().autoRotate = true; G.controls().autoRotateSpeed = 0.45;
 window.addEventListener('resize', () => G.width(wrap.clientWidth).height(wrap.clientHeight));
+
+// HTML labels are drawn over the canvas, so hide those on the far side of the Earth.
+let labels = [];
+function updateLabelVisibility() {
+  const cam = G.camera().position;
+  labels.forEach(d => { if (!d.el) return;
+    const p = G.getCoords(d.lat, d.lng, d.alt || 0.012);
+    d.el.style.opacity = (p.x * cam.x + p.y * cam.y + p.z * cam.z) > 0 ? 1 : 0; });
+}
+G.controls().addEventListener('change', updateLabelVisibility);
 
 const pct = x => (100 * x).toFixed(0) + '%';
 const hex2rgba = (h, a) => { const n = parseInt(h.slice(1), 16);
@@ -326,12 +349,13 @@ function render() {
      tip: `<b>S${x.id}</b> · ${st.label}<br>${x.lat.toFixed(2)}°, ${x.lng.toFixed(2)}°<br>altitud ${x.alt_km.toFixed(0)} km · huella ${x.footprint_km.toFixed(0)} km${x.violating ? '<br><b>¡viola una restricción!</b>' : ''}`}));
   G.pointsData(mk(s, cur === 0 ? P.initial : P.final, .55).concat(ghost ? mk(ghost, P.initial, .3) : []));
 
-  const labels = s.satellites.map(x => ({lat: x.lat, lng: x.lng, alt: x.alt + .01, text: 'S' + x.id, size: 1.1, dot: .5,
+  labels = s.satellites.map(x => ({lat: x.lat, lng: x.lng, alt: x.alt + .01, text: 'S' + x.id, size: 1.1, dot: .5,
       color: cur === 0 ? P.initial : P.final}))
     .concat(s.regions.map(r => ({lat: r.lat, lng: r.lng, text: r.name, size: .75, dot: .25, color: r.covered ? P.covered : P.uncovered})))
     .concat(D.zoneCenters.filter(z => (z.kind === 'debris' ? showZ : showO)).map(z => ({lat: z.lat, lng: z.lng, text: z.name, size: .7, dot: 0,
       color: z.kind === 'debris' ? P.debris : P.occupied})));
-  G.labelsData(labels);
+  G.htmlElementsData(labels);
+  requestAnimationFrame(updateLabelVisibility);
   G.ringsData(s.regions.map(r => ({lat: r.lat, lng: r.lng, rgba: hex2rgba(r.covered ? P.covered : P.uncovered, 'A')})));
 
   document.getElementById('scn').textContent = D.scenario;
@@ -352,9 +376,15 @@ render();
 
 
 def globe_html(scenario: Scenario, states: dict, height: int = 640) -> str:
-    """Standalone HTML page with the interactive globe."""
+    """Standalone UTF-8 HTML page with the interactive globe."""
     data = json.dumps(globe_data(scenario, states), ensure_ascii=False)
     return GLOBE_TEMPLATE.replace("__DATA__", data).replace("__HEIGHT__", str(height))
+
+
+def in_colab() -> bool:
+    import sys
+
+    return "google.colab" in sys.modules
 
 
 def show_globe(scenario: Scenario, states: dict, height: int = 640, save_to: str = None):
@@ -365,9 +395,13 @@ def show_globe(scenario: Scenario, states: dict, height: int = 640, save_to: str
     if save_to:
         with open(save_to, "w", encoding="utf-8") as fh:
             fh.write(html)
-    srcdoc = html.replace("&", "&amp;").replace('"', "&quot;")
-    display(HTML(f'<iframe srcdoc="{srcdoc}" style="width:100%;height:{height + 10}px;border:0;'
-                 f'border-radius:14px" allow="fullscreen"></iframe>'))
+    if in_colab():
+        # Colab already renders every output in its own sandboxed iframe.
+        display(HTML(html))
+    else:
+        srcdoc = html.replace("&", "&amp;").replace('"', "&quot;")
+        display(HTML(f'<iframe srcdoc="{srcdoc}" style="width:100%;height:{height + 10}px;border:0;'
+                     f'border-radius:14px" allow="fullscreen"></iframe>'))
     return html
 
 
