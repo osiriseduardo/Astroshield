@@ -37,6 +37,7 @@ class GAConfig:
     tournament_size: int = 4
     crossover_rate: float = 0.9
     blend_rate: float = 0.3  # per-satellite chance of arithmetic (vs. swap) crossover
+    align_crossover: bool = True  # match satellites before crossover
     mutation_rate: float = 0.15  # per-satellite
     sigma_start_deg: float = 12.0
     sigma_end_deg: float = 0.05
@@ -52,7 +53,7 @@ class GAConfig:
     def __post_init__(self):
         if self.constraint_handling not in CONSTRAINT_MODES:
             raise ValueError(f"constraint_handling must be one of {CONSTRAINT_MODES}")
-        if self.elite_size >= self.population_size:
+        if not 0 <= self.elite_size < self.population_size:
             raise ValueError("elite_size must be smaller than population_size")
 
     def to_dict(self):
@@ -111,8 +112,9 @@ def align(a: np.ndarray, b: np.ndarray) -> np.ndarray:
     return b[cols]
 
 
-def crossover(rng, a, b, blend_rate):
-    b = align(a, b)
+def crossover(rng, a, b, blend_rate, aligned=True):
+    if aligned:
+        b = align(a, b)
     s = len(a)
     c1, c2 = a.copy(), b.copy()
     swap = rng.random(s) < 0.5
@@ -252,7 +254,7 @@ def run_ga(
             cand = rng.integers(0, p, size=(2, cfg.tournament_size))
             pa, pb = (pop[c[np.argmax(rank[c])]] for c in cand)
             if rng.random() < cfg.crossover_rate:
-                c1, c2 = crossover(rng, pa, pb, cfg.blend_rate)
+                c1, c2 = crossover(rng, pa, pb, cfg.blend_rate, cfg.align_crossover)
             else:
                 c1, c2 = pa.copy(), pb.copy()
             for c in (c1, c2):
