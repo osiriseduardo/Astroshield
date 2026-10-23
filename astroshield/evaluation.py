@@ -298,10 +298,14 @@ def reference_upper_bound(scenario: Scenario) -> dict:
 def acceptance(ev: Evaluation, scenario: Scenario) -> dict:
     """Team criteria for 'good enough' (see docs/01_definicion_problema.md)."""
     alta = [r for r in ev.regions if r.priority == "alta"]
+    # Redundancy is only demanded for as many Alta regions as there are spare
+    # satellites (n_satellites - n_regions); asking for more is unattainable.
+    spares = max(scenario.n_satellites - len(scenario.regions), 0)
+    needed = min(len(alta), spares)
     checks = {
         "C1 válida (sin violaciones)": ev.feasible,
         "C2 todas las regiones cubiertas": ev.n_covered == len(ev.regions),
-        "C3 regiones Alta con redundancia ≥ 95%": all(r.redundancy >= 0.95 for r in alta),
+        f"C3 ≥{needed} regiones Alta con redundancia ≥ 95%": sum(r.redundancy >= 0.95 for r in alta) >= needed,
         "C4 fitness ≥ 90% de la cota de referencia": ev.fitness
         >= 0.90 * reference_upper_bound(scenario)["fitness"],
     }

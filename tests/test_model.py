@@ -135,3 +135,15 @@ def test_reference_bound_is_above_known_solution():
     ev = Evaluator(sc).evaluate(overhead_config(sc, alt=520))
     assert ev.fitness <= reference_upper_bound(sc)["fitness"]
     assert set(acceptance(ev, sc)) >= {"C1 válida (sin violaciones)", "ACEPTADA"}
+
+
+def test_acceptance_redundancy_demand_adapts_to_spare_satellites():
+    # Three Alta regions but only two spare satellites: two redundant Alta
+    # regions must be enough to satisfy C3.
+    sc = default_scenario().with_priority("Interior de Australia", "alta")
+    cfg = overhead_config(sc, alt=520)
+    cfg[6] = (sc.regions[0].lat + 2.5, sc.regions[0].lon, 1300)  # 2nd sat over Yucatán
+    cfg[7] = (sc.regions[1].lat + 2.5, sc.regions[1].lon, 1300)  # 2nd sat over Amazonía
+    checks = acceptance(Evaluator(sc).evaluate(cfg), sc)
+    c3 = next(k for k in checks if k.startswith("C3"))
+    assert "≥2" in c3 and checks[c3]
