@@ -603,7 +603,7 @@ function renderMapa(c, sc, ini) {
 }
 
 // ---------------------------------------------------------------- estrellas
-// Campo de estrellas que titila y se desplaza con el giro del globo, como en Google Earth.
+// Campo de estrellas que titila y se desplaza con el giro del globo, como en Google Earth (solo en 3D).
 const CIELO = {visible: true, quieto: window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches};
 function iniciarEstrellas() {
   const cv = $('#estrellas'), ctx = cv.getContext('2d');
@@ -630,7 +630,7 @@ function iniciarEstrellas() {
       if (s.r > 1.2) { ctx.fillStyle = `rgba(${s.color},${(a * 0.18).toFixed(3)})`; ctx.beginPath(); ctx.arc(x, y, s.r * 3, 0, 6.283); ctx.fill(); }
     }
   };
-  const ciclo = t => { if (CIELO.visible) dibujar(t); if (!CIELO.quieto) requestAnimationFrame(ciclo); };
+  const ciclo = t => { if (CIELO.visible && E.modo3d) dibujar(t); if (!CIELO.quieto) requestAnimationFrame(ciclo); };
   crear(); requestAnimationFrame(ciclo);
   new ResizeObserver(() => { crear(); dibujar(performance.now()); }).observe(cv);
 }
@@ -682,6 +682,7 @@ function fijarModo(tres) {
   b.setAttribute('aria-label', E.modo3d ? 'Vista 3D activada; pulsa para cambiar a 2D' : 'Vista 2D activada; pulsa para cambiar a 3D');
   $('#et3d').classList.toggle('on', E.modo3d); $('#et2d').classList.toggle('on', !E.modo3d);
   $('#globo').style.display = E.modo3d ? 'block' : 'none'; $('#mapa').style.display = E.modo3d ? 'none' : 'block';
+  $('#estrellas').style.display = E.modo3d ? 'block' : 'none';
   if (G) { if (E.modo3d) G.resumeAnimation(); else G.pauseAnimation(); }
   if (!E.modo3d && !MAPA.listo) iniciarMapa();
   render();
