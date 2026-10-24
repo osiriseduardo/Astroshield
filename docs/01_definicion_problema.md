@@ -88,7 +88,7 @@ La **violación total** es la suma de las intrusiones, y una configuración es v
    se reporte como la mejor si existe alguna válida, sin tener que calibrar un coeficiente de penalización.
 2. A un 30 % de los hijos se les aplica **reparación**: cada satélite dentro de una zona se empuja por el gran círculo
    hasta el borde de la zona (+0.25°).
-3. Si **no existe** ninguna configuración válida, el AG devuelve la que menos viola y lo informa (`feasible = False`).
+3. Si **no existe** ninguna configuración válida, el AG devuelve la que menos viola y lo informa (`factible = False`).
    Nunca la presenta como solución.
 
 Se comparó contra la penalización estática (fitness − 0.05·violación) y contra no manejar restricciones (pruebas E5 y E10).
@@ -131,6 +131,6 @@ Una configuración se **acepta** si cumple todo lo siguiente:
 * **C3:** hay redundancia (≥ 95 %) en tantas regiones Alta como satélites sobrantes haya, es decir, min(#Alta, 8 − 6).
 * **C4:** el fitness es ≥ 90 % de la cota de referencia.
 
-El AG se detiene al completar las generaciones configuradas (o por estancamiento, si se activa `patience`). **Que el AG
+El AG se detiene al completar las generaciones configuradas (o por estancamiento, si se activa `paciencia`). **Que el AG
 deje de mejorar no prueba que la solución sea óptima**. Por eso se compara contra la cota, contra la búsqueda
 aleatoria y contra una heurística voraz, y se analiza la variación entre semillas.

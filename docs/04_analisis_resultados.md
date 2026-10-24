@@ -1,6 +1,6 @@
 # Entregable 4 — Análisis de resultados
 
-Las respuestas se apoyan en los resultados reales del programa (`outputs/results.json` y `docs/03_pruebas_validacion.md`).
+Las respuestas se apoyan en los resultados reales del programa (`outputs/resultados.json` y `docs/03_pruebas_validacion.md`).
 
 ## 1. ¿Qué tan bien se observan las regiones en la configuración final?
 
@@ -72,7 +72,7 @@ Distinguimos tres situaciones, cada una con su respuesta (E6):
 * **Objetivo inalcanzable (I1):** la solución es válida, pero se pierde la región imposible (Amazonía al 0 %) y se informa.
 * **Recursos insuficientes (I2):** se pierde la región de **menor prioridad** (Australia). Las prioridades deciden el sacrificio.
 * **Restricciones contradictorias (I3):** no existe ninguna solución válida. Se devuelve la menos mala, marcada como
-  inválida (`feasible = False`), y en el historial la mejor válida queda vacía (NaN). El sistema **nunca** presenta
+  inválida (`factible = False`), y en el historial la mejor válida queda vacía (NaN). El sistema **nunca** presenta
   como solución algo que viola restricciones.
 
 ## 6. Limitaciones del criterio de evaluación

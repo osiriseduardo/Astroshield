@@ -1,10 +1,10 @@
 # Entregable 3 — Pruebas y validación
 
-Todos los valores salen de la ejecución de referencia `python tools/run_experiments.py`, que produce
-`outputs/results.json`, los CSV y las figuras `outputs/fig_*.png`. Se usaron los parámetros finales (población 120,
-400 generaciones) y la semilla 0, salvo que se indique otra cosa. El notebook vuelve a ejecutar cada prueba.
+Todos los valores salen de la ejecución de referencia `python herramientas/ejecutar_experimentos.py`, que produce
+`outputs/resultados.json`, los CSV y las figuras `outputs/fig_*.png`. Se usaron los parámetros finales (población 120,
+400 generaciones) y la semilla 0, salvo que se indique otra cosa. El notebook vuelve a ejecutar cada prueba y las muestra en el centro de control.
 
-Además hay **36 pruebas unitarias automatizadas** (`pytest`, en `tests/`). Todas pasan.
+Además hay **44 pruebas unitarias automatizadas** (`pytest`, en `pruebas/`). Todas pasan.
 
 ---
 
@@ -33,7 +33,7 @@ Además hay **36 pruebas unitarias automatizadas** (`pytest`, en `tests/`). Toda
 * **Interpretación:** hay una mejora rápida en la fase de exploración y luego una mejora lenta por ajuste fino de
   altitud y posición. Los 2 satélites sobrantes terminan como redundancia de Yucatán y de la Amazonía (las dos regiones
   Alta), a 1445 y 1537 km. Figuras: `fig_e2_evolucion.png`, `fig_e2_regiones.png`, `fig_e2_mapa.png`.
-  Historial completo: `history_base_seed0.csv`.
+  Historial completo: `historial_base_semilla0.csv`.
 
 ## E3 — Zonas restringidas por desechos
 
@@ -41,7 +41,7 @@ Además hay **36 pruebas unitarias automatizadas** (`pytest`, en `tests/`). Toda
 * **Resultados:** **0 violaciones en 10/10 ejecuciones.** Margen mínimo: Atlántico Norte 30.0°, Pacífico Sur 45.6° y
   Polar Norte 50.5°. En la población aleatoria inicial el 21.5 % de las configuraciones era inválida, y en la
   población final queda el 99.75 % de válidas. Además, cada zona tiene una prueba unitaria que coloca un satélite
-  dentro y verifica que se detecte (`test_satellite_inside_each_zone_is_invalid`).
+  dentro y verifica que se detecte (`test_satelite_dentro_de_cada_zona_es_invalido`).
 * **Interpretación:** las restricciones se cumplen. **Limitación honesta:** en el escenario base las zonas están lejos de
   las regiones, así que en el óptimo no están activas. Por eso E4-estrés, E5 y E6 las ponen encima de las regiones.
   Datos: `e3_e4_auditoria.csv`.
@@ -66,7 +66,7 @@ Además hay **36 pruebas unitarias automatizadas** (`pytest`, en `tests/`). Toda
   | R1 | + zona de 6° en (23°, −90°), a 2.6° de Yucatán | 0.8920 | 6/6 | sí |
   | R2 | + techo de altitud de 1200 km | 0.8742 | 6/6 | sí |
   | R3 | + zona de 5° en (40°, 140°), a 4.3° de Japón | 0.8697 | 6/6 | sí |
-  | R1 sin restricciones | `constraint_handling="none"` | 0.9174 | 6/6 | **no**: S0 y S4 dentro de la zona del Golfo, más 2 pares a menos de 2° |
+  | R1 sin restricciones | `manejo_restricciones="ninguno"` | 0.9174 | 6/6 | **no**: S0 y S4 dentro de la zona del Golfo, más 2 pares a menos de 2° |
 
 * **Interpretación:** al reducir el espacio el fitness baja de forma monótona, pero la cobertura se mantiene. El AG paga
   con resolución y redundancia, no con regiones. Sin manejo de restricciones se obtiene un puntaje mayor (0.9174) que es
@@ -149,10 +149,11 @@ Figura: `fig_e9_reoptimizacion.png`.
   Hay un detalle sobre "sin elitismo": el AG sigue guardando la mejor solución encontrada, así que solo cambia la
   dinámica de la población (converge más lento, en la generación 260 frente a la 197).
 
-## Pruebas unitarias (`tests/`)
+## Pruebas unitarias (`pruebas/`)
 
 | Archivo | Qué verifica |
 |---|---|
-| `test_model.py` | haversine con valores conocidos, destino y rumbo, muestreo de la región, huella monótona en la altitud, que 500 km no cubra 300 km, cobertura total con un satélite encima, coincidencia entre la evaluación por lotes y la individual, que **cada una de las 5 zonas** se detecte, el borde de una zona, la separación, que una zona nueva invalide una configuración, la cota y el criterio C3 adaptativo |
-| `test_ga.py` | que el AG mejore, que la curva sea monótona (elitismo), que la solución final respete cada zona, los límites de altitud, la reproducibilidad por semilla, que el caso inviable se reporte, la región inalcanzable, el warm start, que el AG le gane a la búsqueda aleatoria, la cota, la reparación, la alineación y la reflexión de altitud |
-| `test_viz.py` | que las etiquetas del globo usen texto HTML y conserven los acentos (Península de Yucatán, Amazonía, Japón) |
+| `test_modelo.py` | haversine con valores conocidos, destino y rumbo, muestreo de la región, huella monótona en la altitud, que 500 km no cubra 300 km, cobertura total con un satélite encima, coincidencia entre la evaluación por lotes y la individual, que **cada una de las 5 zonas** se detecte, el borde de una zona, la separación, que una zona nueva invalide una configuración, la cota y el criterio C3 adaptativo |
+| `test_algoritmo_genetico.py` | que el AG mejore, que la curva sea monótona (elitismo), que la solución final respete cada zona, los límites de altitud, la reproducibilidad por semilla, que el caso inviable se reporte, la región inalcanzable, el warm start, que el AG le gane a la búsqueda aleatoria, la cota, la reparación, la alineación y la reflexión de altitud |
+| `test_visualizacion.py` | que el mapa de misión conserve los acentos (Península de Yucatán, Japón) |
+| `test_centro_control.py` | que el centro de control dibuje exactamente la configuración, el fitness y la cobertura del AG; que haya una instantánea en la generación 0 y en cada mejora; que cada prueba tenga condiciones, resultado e interpretación; que la página esté en español con el interruptor en 3D por defecto; que la solución anterior se marque como inválida ante la zona nueva (E9) y que el laboratorio no duplique vistas |
