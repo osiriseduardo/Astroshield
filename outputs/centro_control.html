@@ -48,8 +48,9 @@ h3{margin:10px 0 6px;font-size:11px;letter-spacing:.12em;color:var(--texto);font
 /* ---------- misión ---------- */
 #mision{display:grid;grid-template-columns:236px minmax(0,1fr) 262px;gap:6px;min-height:0}
 #izq,#der{padding:10px;overflow:auto;min-height:0}
-#centro{position:relative;overflow:hidden;min-height:0}
-#globo,#mapa{position:absolute;inset:0}
+#centro{position:relative;overflow:hidden;min-height:0;background:radial-gradient(ellipse at 50% 45%,#0a0f26 0%,#03040c 70%)}
+#estrellas{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+#globo,#mapa{position:absolute;inset:0;z-index:1}
 #mapa{width:100%;height:100%;display:none;cursor:grab}
 #aviso{position:absolute;bottom:60px;left:50%;transform:translateX(-50%);background:rgba(248,113,113,.15);border:1px solid var(--mal);color:#fecaca;padding:4px 10px;border-radius:4px;font-size:11px;display:none;z-index:3;max-width:90%}
 #nota-vista{position:absolute;top:8px;left:10px;max-width:60%;font-size:10.5px;color:var(--tenue);z-index:2;pointer-events:none;background:rgba(7,11,26,.72);padding:4px 8px;border-radius:4px}
@@ -58,7 +59,7 @@ h3{margin:10px 0 6px;font-size:11px;letter-spacing:.12em;color:var(--texto);font
 .punto{display:inline-block;width:8px;height:8px;border-radius:50%;margin:0 4px 0 8px;vertical-align:middle}
 .punto:first-child{margin-left:0}
 .region{padding:6px 6px 7px;border:1px solid transparent;border-radius:4px;cursor:pointer;margin-bottom:3px}
-.region:hover{border-color:var(--linea)} .region.sel{border-color:var(--final);background:rgba(34,211,238,.07)}
+.region:hover{border-color:var(--linea)} .region.activa{border-color:var(--final);background:rgba(34,211,238,.07)}
 .region .fila{display:flex;justify-content:space-between;align-items:center;gap:4px}
 .region .nom{font-family:var(--sans);font-size:11.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .prio{font-size:8.5px;letter-spacing:.1em;padding:1px 4px;border-radius:3px;border:1px solid var(--linea);color:var(--tenue)}
@@ -115,7 +116,8 @@ svg.graf{display:block;overflow:visible}
 .leyenda-g i{display:inline-block;width:14px;height:3px;margin-right:4px;vertical-align:middle;border-radius:2px}
 #tip{position:fixed;pointer-events:none;background:rgba(7,11,26,.95);border:1px solid var(--final);border-radius:4px;padding:5px 8px;font-size:10.5px;display:none;z-index:20;line-height:1.5;max-width:280px}
 .mapa-tierra{fill:#16204a;stroke:#2e3b78;stroke-width:.5}
-.mapa-esfera{fill:#0a1230}.mapa-ret{fill:none;stroke:rgba(141,151,201,.12);stroke-width:.5}
+.mapa-costa{fill:none;stroke:rgba(255,255,255,.22);stroke-width:.4}
+.mapa-esfera{fill:#0c1250;stroke:rgba(34,211,238,.35);stroke-width:1}.mapa-ret{fill:none;stroke:rgba(255,255,255,.10);stroke-width:.5}
 @media (max-width:1180px){
   #mision{grid-template-columns:208px minmax(0,1fr) 236px}
   .marca{min-width:0} .marca b{font-size:15px} .sel select{max-width:180px}
@@ -149,6 +151,7 @@ svg.graf{display:block;overflow:visible}
   <main id="mision">
     <section id="izq" class="panel"><h2>REGIONES</h2><div id="regiones"></div><div id="detalle-region"></div></section>
     <section id="centro" class="panel">
+      <canvas id="estrellas" aria-hidden="true"></canvas>
       <div id="globo"></div><svg id="mapa" role="img" aria-label="Mapa 2D de la constelación"></svg>
       <div id="nota-vista"></div><div id="aviso" role="status"></div>
       <div id="leyenda">
@@ -190,6 +193,9 @@ const D = JSON.parse(document.getElementById('datos').textContent);
 const P = D.paleta;
 const $ = s => document.querySelector(s);
 const RT = 6371;
+// Imagen satelital NASA Blue Marble: la misma textura en el globo 3D y en el mapa 2D.
+const IMG = 'https://unpkg.com/three-globe@2.33.0/example/img/';
+const TEXTURA = IMG + 'earth-blue-marble.jpg';
 const miles = new Intl.NumberFormat('es-MX');
 const f4 = x => x == null ? '—' : Number(x).toFixed(4);
 const fx = (x, n) => x == null ? '—' : Number(x).toFixed(n);
@@ -392,7 +398,7 @@ function renderKPIs(c, sc) {
 function renderRegiones(c, sc) {
   $('#regiones').innerHTML = sc.regiones.map((r, i) => {
     const [cob, red, , cub, sats] = c.r[i], col = colorRegion(cub);
-    return `<div class="region${E.region === i ? ' sel' : ''}" data-i="${i}">
+    return `<div class="region${E.region === i ? ' activa' : ''}" data-i="${i}">
       <div class="fila"><span class="nom"><span class="punto" style="background:${col}"></span>${esc(r.nombre)}</span>
       <span class="prio ${r.prioridad}">${r.prioridad.toUpperCase()}</span></div>
       <div class="barra"><i style="width:${100 * cob}%;background:${col}"></i><i class="red" style="width:${100 * red}%"></i></div>
@@ -457,9 +463,9 @@ function hayWebGL() {
 let G = null, etiquetas = [];
 function iniciarGlobo() {
   if (typeof Globe === 'undefined' || !hayWebGL()) return null;
-  const el = $('#globo'), cont = $('#centro'), IMG = 'https://unpkg.com/three-globe@2.33.0/example/img/';
+  const el = $('#globo'), cont = $('#centro');
   const g = Globe({animateIn: false})(el).width(cont.clientWidth).height(cont.clientHeight)
-    .backgroundColor('rgba(0,0,0,0)').globeImageUrl(IMG + 'earth-blue-marble.jpg').bumpImageUrl(IMG + 'earth-topology.png')
+    .backgroundColor('rgba(0,0,0,0)').globeImageUrl(TEXTURA).bumpImageUrl(IMG + 'earth-topology.png')
     .showAtmosphere(true).atmosphereColor(P.final).atmosphereAltitude(0.16)
     .polygonGeoJsonGeometry('geom').polygonCapCurvatureResolution(2).polygonSideColor(() => 'rgba(0,0,0,0)')
     .polygonStrokeColor('borde').polygonCapColor('relleno').polygonAltitude('alt').polygonLabel('tip').polygonsTransitionDuration(0)
@@ -540,8 +546,14 @@ function dibujarFondo() {
   if (!MAPA.ruta) return;
   MAPA.esfera.selectAll('*').remove(); MAPA.ret.selectAll('*').remove(); MAPA.tierra.selectAll('*').remove();
   MAPA.esfera.append('path').attr('class', 'mapa-esfera').attr('d', MAPA.ruta({type: 'Sphere'}));
+  // La proyección es equirectangular, igual que la imagen: encaja exacta en el rectángulo de la esfera.
+  const [[x0, y0], [x1, y1]] = MAPA.ruta.bounds({type: 'Sphere'});
+  if (!MAPA.sinImagen) MAPA.esfera.append('image').attr('href', TEXTURA).attr('x', x0).attr('y', y0)
+    .attr('width', x1 - x0).attr('height', y1 - y0).attr('preserveAspectRatio', 'none')
+    .on('error', () => { MAPA.sinImagen = true; dibujarFondo(); });
   MAPA.ret.append('path').attr('class', 'mapa-ret').attr('d', MAPA.ruta(d3.geoGraticule10()));
-  if (MAPA.tierraGeo) MAPA.tierra.append('path').attr('class', 'mapa-tierra').attr('d', MAPA.ruta(MAPA.tierraGeo));
+  if (MAPA.tierraGeo) MAPA.tierra.append('path').attr('class', MAPA.sinImagen ? 'mapa-tierra' : 'mapa-costa')
+    .attr('vector-effect', 'non-scaling-stroke').attr('d', MAPA.ruta(MAPA.tierraGeo));
 }
 function escalarTextos() { const k = MAPA.k || 1;
   MAPA.etiq.selectAll('text').attr('font-size', d => (d.tam || 10) / k).attr('stroke-width', 2.5 / k);
@@ -581,6 +593,39 @@ function renderMapa(c, sc, ini) {
     .attr('text-anchor', d => d.centro ? 'middle' : 'start').attr('fill', d => d.color).attr('font-family', 'JetBrains Mono, monospace')
     .attr('paint-order', 'stroke').attr('stroke', '#070B1A').attr('pointer-events', 'none').text(d => d.texto);
   escalarTextos();
+}
+
+// ---------------------------------------------------------------- estrellas
+// Campo de estrellas que titila y se desplaza con el giro del globo, como en Google Earth.
+const CIELO = {visible: true, quieto: window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches};
+function iniciarEstrellas() {
+  const cv = $('#estrellas'), ctx = cv.getContext('2d');
+  const tintes = ['255,255,255', '255,255,255', '255,255,255', '200,220,255', '255,225,205', '225,205,255'];
+  const crear = () => {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2), w = cv.clientWidth, h = cv.clientHeight;
+    cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    CIELO.w = w; CIELO.h = h;
+    CIELO.estrellas = d3.range(Math.round(w * h / 260)).map(() => {
+      const brillante = Math.random() < 0.06;
+      return {x: Math.random(), y: Math.random(), r: brillante ? 0.9 + Math.random() * 0.9 : 0.25 + Math.random() * 0.65,
+        a: brillante ? 0.8 + Math.random() * 0.2 : 0.25 + Math.random() * 0.6, f: 0.4 + Math.random() * 1.6,
+        fase: Math.random() * 6.283, prof: 0.3 + Math.random() * 0.7, color: tintes[Math.floor(Math.random() * tintes.length)]};
+    });
+  };
+  const dibujar = t => {
+    const {w, h} = CIELO; ctx.clearRect(0, 0, w, h);
+    const giro = E.modo3d && G ? G.pointOfView() : {lng: 0, lat: 0};
+    const dx = -giro.lng / 360 * w * 0.6 + t * 0.004, dy = giro.lat / 180 * h * 0.3;
+    for (const s of CIELO.estrellas) {
+      const x = ((s.x * w + dx * s.prof) % w + w) % w, y = ((s.y * h + dy * s.prof) % h + h) % h;
+      const a = CIELO.quieto ? s.a : s.a * (0.65 + 0.35 * Math.sin(t * 0.001 * s.f + s.fase));
+      ctx.fillStyle = `rgba(${s.color},${a.toFixed(3)})`; ctx.beginPath(); ctx.arc(x, y, s.r, 0, 6.283); ctx.fill();
+      if (s.r > 1.2) { ctx.fillStyle = `rgba(${s.color},${(a * 0.18).toFixed(3)})`; ctx.beginPath(); ctx.arc(x, y, s.r * 3, 0, 6.283); ctx.fill(); }
+    }
+  };
+  const ciclo = t => { if (CIELO.visible) dibujar(t); if (!CIELO.quieto) requestAnimationFrame(ciclo); };
+  crear(); requestAnimationFrame(ciclo);
+  new ResizeObserver(() => { crear(); dibujar(performance.now()); }).observe(cv);
 }
 
 // ---------------------------------------------------------------- render principal
@@ -875,7 +920,9 @@ function iniciar() {
   new ResizeObserver(() => { const el = $('#centro'); if (G) G.width(el.clientWidth).height(el.clientHeight); if (MAPA.listo) { ajustarMapa(); render(); } }).observe($('#centro'));
   // El globo deja de dibujar cuando el panel no está a la vista (Colab tiene muchas salidas en la misma pestaña).
   if ('IntersectionObserver' in window) new IntersectionObserver(es => es.forEach(e => {
+    CIELO.visible = e.isIntersecting;
     if (!G || !E.modo3d) return; if (e.isIntersecting) G.resumeAnimation(); else G.pauseAnimation(); })).observe($('#centro'));
+  iniciarEstrellas();
   fijarModo(!!G);
   seleccionarVista(E.vista.id, false);
   abrirPestana('evolucion');
