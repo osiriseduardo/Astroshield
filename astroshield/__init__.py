@@ -1,2 +1,2 @@
-"""AstroShield: evolutionary design of an Earth-observation constellation."""
-__version__ = "1.0.0"
+"""AstroShield: diseño evolutivo de una constelación de observación terrestre."""
+__version__ = "2.0.0"
