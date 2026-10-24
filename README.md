@@ -127,7 +127,7 @@ Verificaciones que hizo el equipo sobre esos resultados:
 
 | Integrante | Parte que puede explicar y demostrar |
 |---|---|
-| _Nombre 1_ | Modelo de cobertura y función de evaluación (`evaluacion.py`) |
+| Cristian Mendez Gamas | Modelo de cobertura y función de evaluación (`evaluacion.py`) |
 | _Nombre 2_ | Algoritmo genético y operadores (`algoritmo_genetico.py`) |
 | _Nombre 3_ | Restricciones, escenarios difíciles y cambios de condiciones (E3–E6, E9) |
 | Osiris Eduardo Vazquez Cabrera | Visualización 3D y análisis de resultados (`centro_control.py`, docs 03–04) |
