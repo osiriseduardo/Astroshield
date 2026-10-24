@@ -1,4 +1,4 @@
-variante,fitness_media,fitness_std,válidas,conv_gen_media
+variante,fitness_media,fitness_desv,validas,gen_convergencia_media
 configuración final,0.8963,0.0059,5,197.2
 sin alineación en cruce,0.8953,0.0052,5,188.4
 sin reparación,0.8939,0.0054,5,216.8

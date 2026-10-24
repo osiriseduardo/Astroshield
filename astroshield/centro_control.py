@@ -447,7 +447,7 @@ def _verificacion(vista_base, base) -> dict:
 
 def ejecutar_pruebas_unitarias(directorio: str = ".") -> dict:
     """Ejecuta pytest y devuelve el resumen que muestra el centro de control."""
-    proc = subprocess.run([sys.executable, "-m", "pytest", "-q", "-p", "no:cacheprovider"], cwd=directorio,
+    proc = subprocess.run([sys.executable, "-m", "pytest", "-q", "--color=no", "-p", "no:cacheprovider"], cwd=directorio,
                           capture_output=True, text=True)
     lineas = [l for l in proc.stdout.strip().splitlines() if l.strip()]
     ultima = lineas[-1] if lineas else proc.stderr.strip()[-200:]
