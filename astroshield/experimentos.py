@@ -5,6 +5,7 @@ el notebook los muestre y herramientas/ejecutar_experimentos.py los guarde en JS
 """
 from __future__ import annotations
 
+import time
 from dataclasses import replace
 
 import numpy as np
@@ -85,12 +86,12 @@ def margenes_zonas(configuracion, escenario: Escenario) -> pd.DataFrame:
 # ----------------------------------------------------------------- experimentos
 def e1_inicial(cfg: ParametrosAG = None, semilla: int = 0) -> ResultadoAG:
     """Etapa 1: sin restricciones espaciales."""
-    return ejecutar_ag(escenario_inicial(), cfg, semilla=semilla, instantanea_cada=25)
+    return ejecutar_ag(escenario_inicial(), cfg, semilla=semilla)
 
 
 def e2_base(cfg: ParametrosAG = None, semilla: int = 0) -> ResultadoAG:
     """Ejecución de referencia de la etapa 2 (todas las restricciones), usada por E2, E3, E4, E8 y E9."""
-    return ejecutar_ag(escenario_base(), cfg, semilla=semilla, instantanea_cada=25)
+    return ejecutar_ag(escenario_base(), cfg, semilla=semilla)
 
 
 def e3_e4_auditoria_restricciones(resultados) -> pd.DataFrame:
@@ -252,7 +253,11 @@ def e9_cambio_condiciones(base: ResultadoAG, cfg: ParametrosAG = None, semilla: 
     }
     # (b) Zona de desechos nueva justo donde está el satélite que observa Japón.
     japon = next(r for r in base.eval_mejor.regiones if r.nombre == "Japón")
-    s = japon.satelites[0]
+    if japon.satelites:
+        s = japon.satelites[0]
+    else:  # ejecuciones cortas: si nadie ve Japón, se usa el satélite más cercano
+        centro = next(r for r in anterior.regiones if r.nombre == "Japón")
+        s = int(np.argmin(distancia_angular(base.mejor[:, 0], base.mejor[:, 1], centro.lat, centro.lon)))
     lat, lon = base.mejor[s, 0], base.mejor[s, 1]
     sc_b = anterior.con_zona(Zona("Desechos nuevos", float(lat), float(lon), 3.0), nombre="C2 nueva zona sobre Japón")
     corto = replace(cfg, generaciones=min(cfg.generaciones, 150))
@@ -304,3 +309,116 @@ def e10_ablacion(cfg: ParametrosAG = None, semillas=range(3), escenario: Escenar
         .reset_index()
     )
     return df, agregado
+
+
+# ------------------------------------------------------------ todo junto
+PASOS = 9
+
+
+def ejecutar_todo(cfg: ParametrosAG = None, n_semillas: int = 10, n_ablacion: int = 5, progreso: bool = False) -> dict:
+    """Ejecuta E1-E10 en el mismo orden que la ejecución de referencia y devuelve
+    todos los resultados. Lo usan el notebook y herramientas/ejecutar_experimentos.py."""
+    cfg = cfg or ParametrosAG()
+    t0 = time.perf_counter()
+
+    def paso(k, texto):
+        if progreso:
+            print(f"[{k}/{PASOS}] {texto}  ({time.perf_counter() - t0:.0f} s)", flush=True)
+
+    paso(1, "E1 · etapa 1 sin restricciones")
+    e1 = e1_inicial(cfg)
+    paso(2, "E2 · ejecución principal con todas las restricciones")
+    base = e2_base(cfg)
+    paso(3, f"E7 · variación entre {n_semillas} semillas + búsqueda aleatoria + voraz")
+    ejecuciones, tabla, resumen, aleatoria, dist = e7_variacion(cfg, semillas=range(n_semillas), progreso=progreso)
+    paso(4, "E3/E4 · auditoría de zonas y objeto junto al Sahel")
+    auditoria = e3_e4_auditoria_restricciones(ejecuciones)
+    junto = e4_objeto_junto_a_region(cfg)
+    paso(5, "E5 · espacio reducido")
+    niveles, sin_manejo = e5_espacio_reducido(cfg)
+    paso(6, "E6 · condiciones difíciles o inviables")
+    inviables = e6_inviables(cfg)
+    paso(7, "E8 · prueba propia: falla de un satélite")
+    robustez = e8_robustez(base, cfg)
+    paso(8, "E9 · cambio de condiciones")
+    cambios = e9_cambio_condiciones(base, cfg)
+    paso(9, f"E10 · ablación de operadores ({n_ablacion} semillas por variante)")
+    ablacion, ablacion_agregada = e10_ablacion(cfg, semillas=range(n_ablacion), progreso=progreso)
+    tiempo = time.perf_counter() - t0
+    if progreso:
+        print(f"Listo en {tiempo:.0f} s.", flush=True)
+    return {
+        "parametros": cfg,
+        "e1": e1,
+        "base": base,
+        "e7": {"ejecuciones": ejecuciones, "tabla": tabla, "resumen": resumen, "aleatoria": aleatoria, "distancias": dist},
+        "auditoria": auditoria,
+        "e4": junto,
+        "e5": {"niveles": niveles, "sin_manejo": sin_manejo},
+        "e6": inviables,
+        "e8": robustez,
+        "e9": cambios,
+        "e10": {"detalle": ablacion, "agregado": ablacion_agregada},
+        "tiempo_s": tiempo,
+    }
+
+
+def _texto_violaciones(ev, limite=None):
+    textos = [
+        f"S{v.satelite}: {v.restriccion} {v.objetivo} ({v.distancia_grados:.2f}° < {v.limite_grados}°)"
+        for v in ev.violaciones
+    ]
+    return textos[:limite] if limite else textos
+
+
+def resumen_resultados(todo: dict) -> dict:
+    """Evidencia en formato JSON (outputs/resultados.json) que citan los documentos."""
+    e1, base, e7 = todo["e1"], todo["base"], todo["e7"]
+    auditoria, junto = todo["auditoria"], todo["e4"]
+    robustez, cambios = todo["e8"], todo["e9"]
+    ejec = e7["ejecuciones"]
+    return {
+        "parametros_ag": todo["parametros"].a_dict(),
+        "E1": {**resumir(e1), "regiones": e1.eval_mejor.tabla_regiones().to_dict("records"),
+               "aceptacion": aceptacion(e1.eval_mejor, e1.escenario)},
+        "E2": {**resumir(base), "regiones": base.eval_mejor.tabla_regiones().to_dict("records"),
+               "satelites": base.eval_mejor.tabla_satelites(base.escenario).to_dict("records"),
+               "aceptacion": aceptacion(base.eval_mejor, base.escenario),
+               "fraccion_factible_inicial": base.historial[0]["fraccion_factible"],
+               "cota_detalle": cota_referencia(base.escenario)},
+        "E7": {"resumen": e7["resumen"], "ejecuciones": e7["tabla"].to_dict("records"), "aleatoria": e7["aleatoria"]},
+        "E3_E4": {
+            "todas_respetan": bool(auditoria["respeta"].all()),
+            "margen_min_por_zona": auditoria.groupby("zona")["margen_grados"].min().to_dict(),
+            "fraccion_factible_inicial_media": float(np.mean([r.historial[0]["fraccion_factible"] for r in ejec])),
+            "fraccion_factible_final_media": float(np.mean([r.historial[-1]["fraccion_factible"] for r in ejec])),
+        },
+        "E4_junto_al_Sahel": {**resumir(junto), "margenes": margenes_zonas(junto.mejor, junto.escenario).to_dict("records"),
+                              "regiones": junto.eval_mejor.tabla_regiones().to_dict("records")},
+        "E5": {
+            "niveles": [{**resumir(r), "regiones": r.eval_mejor.tabla_regiones().to_dict("records"),
+                         "satelites": r.eval_mejor.tabla_satelites(r.escenario).to_dict("records")}
+                        for r in todo["e5"]["niveles"]],
+            "R1_sin_manejo": {**resumir(todo["e5"]["sin_manejo"]),
+                              "violaciones": _texto_violaciones(todo["e5"]["sin_manejo"].eval_mejor)},
+        },
+        "E6": {k: {**resumir(r), "regiones": r.eval_mejor.tabla_regiones().to_dict("records"),
+                   "violaciones": _texto_violaciones(r.eval_mejor, 12), "n_violaciones": len(r.eval_mejor.violaciones)}
+               for k, r in todo["e6"].items()},
+        "E8": {
+            **{k: robustez[k].to_dict("records") for k in ("con_redundancia", "sin_redundancia")},
+            "resumen": {k: {"fitness_media_N-1": float(robustez[k]["fitness"].mean()),
+                            "peor_regiones_cubiertas": int(robustez[k]["regiones_cubiertas"].min()),
+                            "fallas_sin_perdida": int((robustez[k]["regiones_perdidas"] == "ninguna").sum())}
+                        for k in ("con_redundancia", "sin_redundancia")},
+        },
+        "E9": {
+            "prioridad": {"revalidacion": cambios["prioridad"]["revalidacion"],
+                          "reoptimizado": resumir(cambios["prioridad"]["reoptimizado"])},
+            "zona_nueva": {"revalidacion": cambios["zona_nueva"]["revalidacion"],
+                           "desde_poblacion_previa": resumir(cambios["zona_nueva"]["desde_poblacion_previa"]),
+                           "desde_cero": resumir(cambios["zona_nueva"]["desde_cero"])},
+        },
+        "E10": todo["e10"]["agregado"].to_dict("records"),
+        "tiempo_s": round(todo["tiempo_s"], 1),
+    }

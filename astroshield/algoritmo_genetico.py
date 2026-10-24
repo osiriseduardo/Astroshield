@@ -75,7 +75,8 @@ class ResultadoAG:
     evaluaciones: int
     tiempo_s: float
     motivo_parada: str
-    instantaneas: dict = field(default_factory=dict)  # generación -> mejor configuración
+    # generación -> mejor configuración, guardada en la generación 0 y en cada mejora
+    instantaneas: dict = field(default_factory=dict)
 
     @property
     def encontro_factible(self) -> bool:
@@ -196,7 +197,6 @@ def ejecutar_ag(
     parametros: ParametrosAG = None,
     semilla: int = 0,
     poblacion_inicial: np.ndarray = None,
-    instantanea_cada: int = 0,
     al_registrar: Callable[[dict], None] = None,
 ) -> ResultadoAG:
     """Ejecuta el AG y devuelve la mejor configuración junto con el historial completo."""
@@ -271,11 +271,10 @@ def ejecutar_ag(
         i = int(np.argmax(rango))
         if rango[i] > mejor_rango + 1e-9:
             mejor, mejor_rango, sin_mejora = pob[i].copy(), rango[i], 0
+            instantaneas[gen] = mejor.copy()
         else:
             sin_mejora += 1
         registrar(gen, sigma, sigma_alt)
-        if instantanea_cada and gen % instantanea_cada == 0:
-            instantaneas[gen] = mejor.copy()
         if cfg.paciencia and sin_mejora >= cfg.paciencia:
             motivo_parada = f"estancamiento ({cfg.paciencia} generaciones sin mejora)"
             break
