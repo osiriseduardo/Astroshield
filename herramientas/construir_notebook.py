@@ -20,6 +20,9 @@ from pathlib import Path
 
 import nbformat as nbf
 
+if sys.stdout.encoding.lower() != 'utf-8':
+    sys.stdout.reconfigure(encoding='utf-8')
+
 RAIZ = Path(__file__).resolve().parents[1]
 RUTA_NB = RAIZ / "notebooks" / "AstroShield.ipynb"
 MODULOS = ["__init__", "geometria", "escenario", "evaluacion", "algoritmo_genetico", "referencias", "experimentos",
@@ -42,7 +45,16 @@ def codigo(fuente, oculta=False):
 
 def datos_referencia_b64() -> str:
     """Datos del centro de control de la ejecución de referencia, comprimidos."""
-    crudo = (RAIZ / "outputs" / "datos_centro_control.json").read_bytes()
+    ruta_datos = RAIZ / "outputs" / "datos_centro_control.json"
+    if not ruta_datos.exists():
+        raise FileNotFoundError(
+            f"No se encontró {ruta_datos}.\n"
+            "Debes ejecutar primero 'python herramientas/ejecutar_experimentos.py' "
+            "para generar los datos necesarios."
+        )
+    
+    crudo = ruta_datos.read_bytes()
+    
     b64 = base64.b64encode(gzip.compress(crudo, mtime=0)).decode("ascii")
     return "\n".join(textwrap.wrap(b64, 100))
 
@@ -211,7 +223,15 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--ejecutar", action="store_true", help="ejecuta el notebook para guardar sus salidas")
     args = ap.parse_args()
-    R = json.loads((RAIZ / "outputs" / "resultados.json").read_text(encoding="utf-8"))
+    
+    ruta_resultados = RAIZ / "outputs" / "resultados.json"
+    if not ruta_resultados.exists():
+        print(f"Error: No se encontró '{ruta_resultados}'.")
+        print("Por favor, ejecuta primero: python herramientas/ejecutar_experimentos.py")
+        sys.exit(1)
+        
+    R = json.loads(ruta_resultados.read_text(encoding="utf-8"))
+    
     construir(R)
     nb = nbf.v4.new_notebook()
     nb.cells = celdas
