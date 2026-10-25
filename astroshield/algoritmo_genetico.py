@@ -31,6 +31,9 @@ from .geometria import a_unitario, desde_unitario, destino, distancia_angular, p
 MODOS_RESTRICCION = ("deb", "penalizacion", "ninguno")
 
 
+# Configuración del algoritmo genético.
+# Permite ajustar el tamaño de la población, las generaciones,
+# la selección, el cruce, la mutación y el manejo de restricciones.
 @dataclass
 class ParametrosAG:
     tam_poblacion: int = 120
