@@ -37,6 +37,21 @@ def test_normalizar_lon_rango():
     assert normalizar_lon(-180) == pytest.approx(-180)
 
 
+@pytest.mark.parametrize(
+    ("entrada", "esperada"),
+    [
+        (180, -180),
+        (-181, 179),
+        (360, 0),
+        (540, -180),
+        (-540, -180),
+    ],
+)
+def test_normalizar_lon_casos_limite(entrada, esperada):
+    assert normalizar_lon(entrada) == pytest.approx(esperada)
+
+
+
 def test_muestras_disco_cubren_exactamente_la_region():
     pts = muestras_disco(0, 0, 3.0, anillos=3)
     assert len(pts) == 1 + 8 + 16 + 24
