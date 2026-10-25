@@ -107,8 +107,8 @@ posiciones ocupadas.
 
 > **Completar por el equipo antes de entregar.**
 
-Se usó un asistente de IA para: proponer la estructura del código, redactar la primera versión de los módulos, las
-pruebas y la documentación, y generar el notebook y el centro de control.
+Se usó un asistente de IA (Claude, de Anthropic) para: proponer la estructura del código, redactar la primera versión
+de los módulos, las pruebas y la documentación, y generar el notebook y el centro de control.
 
 Verificaciones que hizo el equipo sobre esos resultados:
 
