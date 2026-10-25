@@ -108,7 +108,7 @@ posiciones ocupadas.
 > **Completar por el equipo antes de entregar.**
 
 Se usó un asistente de IA (Claude, de Anthropic) para: proponer la estructura del código, redactar la primera versión
-de los módulos, las pruebas y la documentación, generar el notebook y el centro de control, y pasar el código a español.
+de los módulos, las pruebas y la documentación, y generar el notebook y el centro de control.
 
 Verificaciones que hizo el equipo sobre esos resultados:
 
@@ -118,7 +118,7 @@ Verificaciones que hizo el equipo sobre esos resultados:
 * Auditar con un cálculo independiente que ninguna solución final viola zonas (E3/E4).
 * Comprobar que el centro de control dibuja exactamente la configuración del AG (pestaña *Modelo y verificación* y
   `pruebas/test_centro_control.py`).
-* Comprobar que el paso del código a español no cambió el comportamiento: la semilla 0 da el mismo fitness
+* Comprobar que renombrar los módulos y funciones no cambió el comportamiento: la semilla 0 da el mismo fitness
   (0.9173803548571937) y la misma configuración antes y después.
 * Contrastar cada afirmación de los documentos con `outputs/resultados.json`.
 * _(Agregar aquí lo que cada integrante revisó, modificó o decidió.)_
@@ -127,7 +127,7 @@ Verificaciones que hizo el equipo sobre esos resultados:
 
 | Integrante | Parte que puede explicar y demostrar |
 |---|---|
-| _Nombre 1_ | Modelo de cobertura y función de evaluación (`evaluacion.py`) |
-| _Nombre 2_ | Algoritmo genético y operadores (`algoritmo_genetico.py`) |
+| Cristian Mendez Gamas | Modelo de cobertura y función de evaluación (`evaluacion.py`) |
+| Juan Antonio Vázquez Uc | Algoritmo genético y operadores (`algoritmo_genetico.py`) |
 | Erik Alexander Martínez López | Restricciones, escenarios difíciles y cambios de condiciones (E3–E6, E9) |
 | Osiris Eduardo Vazquez Cabrera | Visualización 3D y análisis de resultados (`centro_control.py`, docs 03–04) |
