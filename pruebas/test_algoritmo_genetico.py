@@ -114,3 +114,11 @@ def test_modo_de_restriccion_invalido_se_rechaza():
 def test_forma_de_la_poblacion_aleatoria():
     pob = poblacion_aleatoria(np.random.default_rng(0), escenario_base(), 5)
     assert pob.shape == (5, 8, 3)
+
+def test_con_ocho_satelites_se_cubren_todas_las_regiones():
+    sc = escenario_base()
+    r = ejecutar_ag(sc, ParametrosAG(), semilla=0)
+
+    assert len(r.mejor) == 8
+    assert r.encontro_factible
+    assert all(region.cobertura == pytest.approx(1.0) for region in r.eval_mejor.regiones)
