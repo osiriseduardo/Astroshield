@@ -12,6 +12,9 @@ import json
 import sys
 from pathlib import Path
 
+if sys.stdout.encoding.lower() != 'utf-8':
+    sys.stdout.reconfigure(encoding='utf-8')
+
 import matplotlib
 
 matplotlib.use("Agg")
@@ -83,8 +86,10 @@ def main():
     ap.add_argument("--semillas", type=int, default=10)
     ap.add_argument("--rapido", action="store_true", help="AG más pequeño para una prueba rápida")
     args = ap.parse_args()
+    
     SALIDA.mkdir(exist_ok=True)
     aplicar_tema()
+    
     cfg = ParametrosAG(generaciones=80, tam_poblacion=60) if args.rapido else ParametrosAG()
     todo = X.ejecutar_todo(cfg, n_semillas=args.semillas, n_ablacion=3 if args.rapido else 5, progreso=True)
 
@@ -92,6 +97,7 @@ def main():
     pruebas = C.ejecutar_pruebas_unitarias(str(RAIZ))
     print(" ", pruebas["resumen"])
 
+    # Guardar los JSON y CSVs principales
     resultados = X.resumen_resultados(todo)
     (SALIDA / "resultados.json").write_text(json.dumps(resultados, ensure_ascii=False, indent=2, default=str),
                                             encoding="utf-8")
@@ -99,13 +105,19 @@ def main():
     todo["e7"]["tabla"].to_csv(SALIDA / "e7_ejecuciones.csv", index=False)
     todo["auditoria"].to_csv(SALIDA / "e3_e4_auditoria.csv", index=False)
     todo["e10"]["agregado"].to_csv(SALIDA / "e10_ablacion.csv", index=False)
+    
+    # Generar figuras
     figuras(todo)
 
+    # Generar y guardar el centro de control
     datos = C.datos_centro_control(todo, pruebas, modo="rápido" if args.rapido else "completo")
     C.guardar_centro_control(datos, str(SALIDA / "centro_control.html"))
+    
     (SALIDA / "datos_centro_control.json").write_text(
         json.dumps(datos, ensure_ascii=False, separators=(",", ":"), default=C._json_default, allow_nan=False),
-        encoding="utf-8")
+        encoding="utf-8"
+    )
+    
     print(f"Listo en {todo['tiempo_s']:.0f} s -> {SALIDA}")
 
 
