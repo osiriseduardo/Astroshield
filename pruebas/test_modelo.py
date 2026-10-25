@@ -147,3 +147,39 @@ def test_redundancia_exigida_se_adapta_a_los_satelites_sobrantes():
     criterios = aceptacion(Evaluador(sc).evaluar(cfg), sc)
     c3 = next(k for k in criterios if k.startswith("C3"))
     assert "≥2" in c3 and criterios[c3]
+
+@pytest.mark.parametrize(
+    ("desfase", "factible"),
+    [(-0.01, False), (0.01, True)],
+)
+def test_factibilidad_cambia_a_ambos_lados_del_borde_de_una_zona(desfase, factible):
+    sc = escenario_base()
+    zona = next(z for z in sc.zonas if z.nombre == "Atlántico Norte")
+    cfg = configuracion_encima(sc)
+    cfg[7, :2] = destino(
+        zona.lat,
+        zona.lon,
+        90,
+        zona.radio_grados + desfase,
+    )
+
+    ev = Evaluador(sc).evaluar(cfg)
+
+    assert ev.factible is factible
+    if not factible:
+        assert any(v.objetivo == zona.nombre for v in ev.violaciones)
+
+
+def test_cambiar_prioridad_no_invalida_la_geometria_de_la_configuracion():
+    sc = escenario_base()
+    cfg = configuracion_encima(sc)
+    cfg[0] = (-60, 170, 900)  # Deja Yucatán sin cubrir.
+
+    anterior = Evaluador(sc).evaluar(cfg)
+    cambiado = sc.con_prioridad("Península de Yucatán", "normal")
+    nuevo = Evaluador(cambiado).evaluar(cfg)
+
+    assert anterior.factible
+    assert nuevo.factible
+    assert not nuevo.violaciones
+    assert nuevo.fitness > anterior.fitness
