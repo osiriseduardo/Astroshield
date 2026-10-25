@@ -145,6 +145,20 @@ def test_zona_nueva_invalida_la_configuracion_anterior():
     assert not ev.factible and ev.violaciones[0].satelite == 3
 
 
+def test_con_zona_conserva_el_escenario_original():
+    sc = escenario_base()
+    zonas_originales = sc.zonas
+
+    cambiado = sc.con_zona(
+        Zona("Zona de prueba", 0.0, 0.0, 4.0)
+    )
+
+    assert sc.zonas == zonas_originales
+    assert len(cambiado.zonas) == len(zonas_originales) + 1
+    assert cambiado.zonas[-1].nombre == "Zona de prueba"
+
+
+
 def test_cota_de_referencia_supera_una_solucion_conocida():
     sc = escenario_base()
     ev = Evaluador(sc).evaluar(configuracion_encima(sc, alt=520))
